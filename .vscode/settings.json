@@ -1,0 +1,4 @@
+{
+  "Lua.diagnostics.enable": false,
+  "latex-workshop.latex.outDir": "%WORKSPACE_FOLDER%/build/doc"
+}

@@ -1,0 +1,41 @@
+# L3build
+build/
+*.pdf
+*.aux
+*.log
+*.out
+*.toc
+*.idx
+*.ind
+*.ilg
+*.glo
+*.gls
+*.fls
+*.fdb_latexmk
+
+# LaTeX
+*.dvi
+*.ps
+*.eps
+*.bbl
+*.blg
+*.lof
+*.lot
+*.synctex.gz
+*.synctex(busy)
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Misc
+*.tmp
+*.backup
+.git/
