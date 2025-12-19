@@ -1,0 +1,393 @@
+% \iffalse
+%<*driver>
+\ProvidesFile{quatex-layout.dtx}
+%</driver>
+%<package>\NeedsTeXFormat{LaTeX2e}[2024-11-01]
+%<package>\ProvidesPackage{quatex-layout}
+%<package> [2025-12-19 v0.1 Quaerent's toolbox package]
+% \fi
+% 
+% \chapter{Layout Styles}
+% 
+% \StopEventually{}
+% 
+% \section{Implementation}
+% 
+% \subsection{Color Definitions}
+% 
+%    \begin{macrocode}
+
+\RequirePackage[rgb,table]{xcolor}
+
+\definecolor{ChapterNumberColor}{gray}{0.88}
+\definecolor{HeaderColor}{gray}{0.35}
+\definecolor{HeaderRuleColor}{gray}{0.75}
+
+\definecolor{Gray10}{gray}{0.1}
+\definecolor{Gray20}{gray}{0.2}
+\definecolor{Gray30}{gray}{0.3}
+\definecolor{Gray40}{gray}{0.4}
+\definecolor{Gray50}{gray}{0.5}
+\definecolor{Gray60}{gray}{0.6}
+\definecolor{Gray70}{gray}{0.7}
+\definecolor{Gray80}{gray}{0.8}
+\definecolor{Gray90}{gray}{0.9}
+
+\definecolor{LightGrayFill}{gray}{0.97}
+
+%    \end{macrocode}
+% 
+% \subsection{Geometry}
+% 
+%    \begin{macrocode}
+
+\RequirePackage{geometry}
+
+\geometry{
+    width=145mm,
+    height=250mm,
+    hmarginratio=1:1,   % space ratio between left and right margins
+    vmarginratio=3:4,   % space ratio between top and bottom margins
+    includehead,        % include header in total height
+    headheight=2.5em,   % header height (include space below the rule)
+    headsep=0mm,        % no extra space between header and text
+}
+
+%    \end{macrocode}
+% 
+% \subsection{Header and Footer}
+% 
+%    \begin{macrocode}
+
+\RequirePackage{fancyhdr}
+\RequirePackage{tikz}
+
+%% Disable `fancyhdr' warning on `E' option
+\def\f@nch@fancyhf@Echeck#1{}
+
+%% Define left/right padding of header
+\newlength{\headerpadding}
+\setlength{\headerpadding}{2pt}
+
+%% Style of the header rule and decorations
+\renewcommand*{\headrulewidth}{0.9pt}
+\usetikzlibrary{arrows.meta, fadings}
+\tikzset{
+    header rule/.style={HeaderRuleColor},
+    header decor/.style={
+        HeaderRuleColor,
+        line width=1.0pt,
+        -{Diamond[open]},
+        overlay,
+    },
+}
+
+%% Save header rules for faster compile time
+\newsavebox{\defaultheaderrule}
+\newsavebox{\chapterheaderrule}
+% Default header - full width
+\sbox{\defaultheaderrule}{%
+    \tikz[baseline=-1em]{
+        \fill[header rule] (0,0) rectangle (\textwidth,\headrulewidth);
+        \ifquatex@fancy
+            \draw[header decor]
+              (\textwidth,\headrulewidth/2)
+              -- ++( 7pt,0);
+            \draw[header decor]
+              (         0,\headrulewidth/2)
+              -- ++(-7pt,0);
+        \fi
+    }%
+}
+% Chapter page header - half width
+\sbox{\chapterheaderrule}{%
+    \tikz[baseline=-1em]{
+        \fill[header rule, path fading=west]
+            (0,0) rectangle (0.45\textwidth,\headrulewidth);
+        \ifquatex@fancy
+            \draw[header decor]
+                (0.45\textwidth,\headrulewidth/2) -- ++(7pt,0);
+        \fi
+    }%
+}
+
+%% Default header style
+\fancypagestyle{header}{
+    \renewcommand*{\headrule}{%
+        \usebox{\defaultheaderrule}\linebreak[1]%
+    }
+    \fancyhead[LO]{%
+       \hspace{\headerpadding}%
+       \textcolor{HeaderColor}%
+       {\textsf{\nouppercase{\rightmark}}}%
+    }
+    \fancyhead[RE]{%
+        \color{HeaderColor}%
+        \textsf{\nouppercase{\rightmark}}%
+        \hspace{\headerpadding}%
+    }
+    \fancyhead[RO]{\textbf{\thepage}\hspace{\headerpadding}}
+    \fancyhead[LE]{\hspace{\headerpadding}\textbf{\thepage}}
+    \fancyfoot{}
+}
+
+%% Chapter header style
+\fancypagestyle{plain}[header]{
+    \renewcommand*{\headrule}{%
+      \hfill\usebox{\chapterheaderrule}\linebreak[1]%
+    }
+    \fancyhead[LO,RE]{}
+}
+
+\pagestyle{header}
+
+%    \end{macrocode}
+%    
+% \subsection{Page Numbering}
+%    
+% \begin{macro}{\frontmatter, \mainmatter, \backmatter}
+%    \begin{macrocode}
+
+%% Redefine commands for page numbering
+\ifdefined\chapter
+    %% Backup original commands
+    \ifdefined\frontmatter
+        \NewCommandCopy{\frontmatterold}{\frontmatter}
+    \else
+        \let\frontmatterold\relax
+    \fi
+    \ifdefined\mainmatter
+        \NewCommandCopy{\mainmatterold}{\mainmatter}
+    \else
+        \let\mainmatterold\relax
+    \fi
+    \ifdefined\backmatter
+        \NewCommandCopy{\backmatterold}{\backmatter}
+    \else
+        \let\backmatterold\relax
+    \fi
+
+    %% Redefine commands
+    \DeclareDocumentCommand{\frontmatter}{}{
+        \frontmatterold
+        \pagenumbering{roman}
+        \ifdefined\chapter
+            \gdef\thechapter{\@Alph\c@chapter}
+        \fi
+    }
+    \DeclareDocumentCommand{\mainmatter}{}{
+        \mainmatterold
+        \cleardoublepage
+        \pagenumbering{arabic}
+        \setcounter{section}{0}
+        \ifdefined\chapter
+            \setcounter{chapter}{0}
+            \gdef\thechapter{\@arabic\c@chapter}
+        \fi
+    }
+    \DeclareDocumentCommand{\backmatter}{}{
+        \backmatterold
+        \bookmarksetup{startatroot}
+    }
+\fi
+
+%    \end{macrocode}
+% \end{macro}
+% 
+% \subsection{Headings}
+% 
+% \begin{macro}{\chapternotnumbered}
+%    \begin{macrocode}
+
+%% Chapter without number, but included in header and TOC
+\NewDocumentCommand{\chapternotnumbered}{m}{
+    \chapter*{#1}
+    \markboth{#1}{#1}
+    \addcontentsline{toc}{chapter}{#1}
+}
+
+%    \end{macrocode}
+% \end{macro}
+% 
+%    \begin{macrocode}
+
+\RequirePackage[newparttoc, clearempty]{titlesec}
+
+%% Title formatting (section, subsection, paragraph, part)
+\titleformat{\section}
+    {\MakeLinkTarget[section]{}\Large\sffamily\bfseries}
+    {\thesection}
+    {0.8em}{}
+\titleformat{\subsection}
+    {\MakeLinkTarget[subsection]{}\large\sffamily\bfseries}
+    {\thesubsection}
+    {0.8em}{}
+\titleformat{\paragraph}[runin]
+    {\MakeLinkTarget[paragraph]{}\normalsize\sffamily\bfseries}
+    {\theparagraph}
+    {0em}{}
+\titleformat{\part}[display]
+    {\thispagestyle{empty}\sffamily}
+    {\LARGE \partname~\Romanbar{\thepart}}
+    {0.2em}{\fontsize{30pt}{36pt}\selectfont\bfseries}
+
+%% Format the chapter heading letter
+%%   #1 - chapter number or first letter of chapter title
+\NewDocumentCommand{\chapterheadingletter}{m}{%
+    \makebox[0pt][l]{%
+        \raisebox{-16pt}[0pt][0pt]{%
+            \hspace{0.55em}\color{ChapterNumberColor}%
+            \usefont{T1}{qzc}{m}{it}\fontsize{95pt}{95pt}\selectfont%
+            #1%
+        }%
+    }%
+}
+
+%% Format the chapter heading
+%%   #1 - star (*) if unnumbered chapter
+%%   #2 - chapter numbering
+%%   #3 - chapter title
+\NewDocumentCommand{\chaphead}{s O{} m}{
+    \vspace*{-25pt}% header top margin
+    {%
+        \setlength{\parindent}{0pt}\raggedright%
+        \Huge\sffamily\bfseries%
+        \ifquatex@fancy%
+            \chapterheadingletter{#2}%
+        \else%
+            \IfBooleanF{#1}{#2\hspace{0.7em}}%
+        \fi%
+        #3\par\nobreak%
+        \vspace{20pt}% header bottom margin
+    }%
+}
+
+%% Title formatting (chapter)
+% for numbered Chapters simply use their number
+\def\@makechapterhead#1{\chaphead[\thechapter]{#1}}
+% extract first letter of the unnumbered Chapter title 
+\def\@makeschapterhead#1{\chaphead*[\ExtractLeadingChars{#1}]{#1}}
+
+%% Extract leading characters from a string
+%%   #1 - number of leading characters to extract (default: 1)
+%%   #2 - input string
+\ExplSyntaxOn
+\cs_generate_variant:Nn \tl_item:nn { f }
+\NewDocumentCommand{\ExtractLeadingChars}{O{1} m}{
+    \tl_item:fn { #2 } { #1 }
+}
+\ExplSyntaxOff
+
+%    \end{macrocode}
+% 
+% \subsection{Table of Contents}
+% 
+%    \begin{macrocode}
+
+\RequirePackage{titletoc}
+\RequirePackage{tocbibind}
+
+%% Numbering depth and TOC depth
+\ifdefined\chapter
+    % For documents with chapters:
+    %   number up to sections, TOC up to subsections
+    \setcounter{secnumdepth}{1}
+    \setcounter{tocdepth}{2}
+\else
+    % For documents without chapters:
+    %   number up to subsections, TOC up to subsubsections
+    \setcounter{secnumdepth}{2}
+    \setcounter{tocdepth}{3}
+\fi
+\contentsmargin[0.6em]{2em}
+
+%% TOC entry styles
+% Primary entries
+\titlecontents{\ifdefined\chapter chapter\else section\fi}
+    [1.6em]{\addvspace{2.4ex}\bfseries}
+    {\contentslabel{1.4em}}{\hspace*{-1.4em}}
+    {\hfill\normalfont\contentspage[\bfseries\thecontentspage]}
+% Secondary entries
+\titlecontents{\ifdefined\chapter section\else subsection\fi}
+    [4em]{\addvspace{1.2ex}}
+    {\contentslabel{2.3em}}{\hspace*{-2.3em}}
+    {\textcolor{gray}{\titlerule*[9pt]{.}}\contentspage}
+% Tertiary entries
+\newcommand*{\sspace}{\hspace{0.34em plus 0.5em minus 0.12em}}
+\titlecontents*{\ifdefined\chapter subsection\else subsubsection\fi}
+    [4.7em]{\footnotesize\color{Gray40}}
+    {}{}{~\thecontentspage}
+    [][\sspace\textbullet\sspace][\hspace*{0.6em}\vspace{0.1em}]
+% Part entries
+\titlecontents{part}
+    [2em]{\addvspace{3ex}\filcenter}
+    {\small \partname~\thecontentslabel\\*[-0.2ex]\Large\bfseries}
+    {\Large\bfseries}{}
+    [\addvspace{1.0ex}]
+
+%    \end{macrocode}
+%
+% \begin{macro}{\QuaTOC}
+%    \begin{macrocode}
+
+\NewDocumentCommand{\QuaTOC}{}{
+    \cleardoublepage
+    {
+      \hypersetup{hidelinks}
+      \tableofcontents
+    }
+    \cleardoublepage
+}
+
+%    \end{macrocode}
+% \end{macro}
+% 
+% \subsection{Typesetting}
+% 
+%    \begin{macrocode}
+
+\ifpdftex
+    \RequirePackage[T1]{fontenc}
+\fi
+\RequirePackage{lmodern}
+\RequirePackage{romanbar}
+
+%% Add slightly more breathing space between lines
+\linespread{1.05}\selectfont
+
+%    \end{macrocode}
+% 
+% \begin{macro}{\textsbc, \textsfe}
+%    \begin{macrocode}
+
+%% Commands for accessing extra Latin Modern fonts
+%%     - `sbc' - sans bold condensed
+%%     - `sfe' - sans serif extended
+%% https://www.tug.org/pracjourn/2006-1/robertson/robertson.pdf
+\newcommand*{\sbcseries}{\sffamily\fontseries{sbc}\selectfont}
+\newcommand*{\sfefamily}{\fontfamily{lmssq}\selectfont}
+\DeclareTextFontCommand{\textsbc}{\sbcseries}
+\DeclareTextFontCommand{\textsfe}{\sfefamily}
+
+%    \end{macrocode}
+% \end{macro}
+% 
+%    \begin{macrocode}
+
+%% Use slanted shape for emphasis `\emph{...}', and for nested emphasis use italics
+\DeclareEmphSequence{\slshape,\itshape}
+
+\RequirePackage{microtype} % improve typography
+\RequirePackage{parskip}   % no paragraph indentation
+\RequirePackage{csquotes}  % context-sensitive quotation facilities
+
+%% Enumerate/itemize environments
+\RequirePackage[alwaysadjust,neverdecrease]{paralist}
+\setdefaultleftmargin{1.87em}{1.7em}{1.5em}{1em}{1em}{1em}
+\setdefaultitem{$\bullet$}{\textbullet}{\textasteriskcentered}{\textperiodcentered}
+\setdefaultenum{\bfseries (1)}{\bfseries (a)}{\bfseries (i)}{A.}
+
+%    \end{macrocode}
+% 
+% \Finale
+\endinput

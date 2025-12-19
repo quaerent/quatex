@@ -16,25 +16,41 @@
 %<*driver>
 \ProvidesFile{quatex.dtx}
 %</driver>
-%<package>\NeedsTeXFormat{LaTeX2e}[2025-06-01]
+%<package>\NeedsTeXFormat{LaTeX2e}[2024-11-01]
 %<package>\ProvidesPackage{quatex}
-%<package> [2025-12-15 v0.1 Quaerent's toolbox package]
+%<package> [2025-12-19 v0.1 Quaerent's toolbox package]
 %
 %<*driver>
-\documentclass{ltxdoc}
+
+% Hack to use report class for better documentation layout
+\listfiles
+\RequirePackage{scrlfile}
+\ReplaceClass{article}{report}
+
+\documentclass[a4paper]{ltxdoc}
+
 \usepackage{quatex}
+
+\setlength{\headheight}{35pt} % ensure enough space for header
+
 \EnableCrossrefs
 \CodelineIndex
 \RecordChanges
+
 \begin{document}
-  \DocInput{quatex.dtx}
-  \PrintChanges
-  \PrintIndex
+
+\DocInput{quatex.dtx}
+\DocInput{quatex-reference.dtx}
+\DocInput{quatex-math.dtx}
+\DocInput{quatex-layout.dtx}
+\DocInput{quatex-environment.dtx}
+
 \end{document}
+
 %</driver>
 % \fi
 %
-% \CheckSum{3}
+% \CheckSum{29}
 %
 % \CharacterTable
 %  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
@@ -53,44 +69,88 @@
 %   Right brace   \}     Tilde         \~}
 %
 %
-% \changes{v1.0}{2023/10/27}{Initial version}
+% \changes{v0.1}{2025-12-19}{Initial version}
 %
 % \GetFileInfo{quatex.sty}
 %
-% \title{The \textsf{quatex} package\thanks{This document
+% \title{The \textsf{Qua\TeX{}} package\thanks{This document
 %   corresponds to \textsf{quatex}~\fileversion, dated \filedate.}}
 % \author{Quaerent \\ \texttt{topfyf@qq.com}}
 %
 % \maketitle
+% 
+% \frontmatter
+% \QuaTOC
 %
-% \begin{abstract}
-%   This is Quaerent's toolbox package.
-%   It provides a set of macros and utilities for personal use.
-% \end{abstract}
-%
-% \section{Introduction}
+% \mainmatter
+% \chapter{General Usage}
 %
 % This package contains various tools and macros used by Quaerent.
 %
-% \section{Usage}
-%
-% \DescribeMacro{\quahello}
-% This is an example macro included in the toolbox. It prints a greeting.
-%
-% \begin{verbatim}
-%   \quahello{World}
-% \end{verbatim}
-%
 % \StopEventually{}
-%
+% 
 % \section{Implementation}
 %
-% \begin{macro}{\quahello}
-%    This is a simple macro that takes one argument and prints a bold greeting.
+% \subsection{Package Options}
+% 
+% \begin{macro}{
+%   \quatex@reference,
+%   \quatex@math,
+%   \quatex@layout,
+%   \quatex@environment,
+%   \quatex@linkbox,
+%   \quatex@fancy,
+%   \quatex@author,
+%   \quatex@title,
+%   \quatex@subject,
+%   \quatex@keywords,
+%   \quatex@display,
+%   \quatex@operators,
+%   \quatex@envs
+% }
 %    \begin{macrocode}
-\newcommand{\quahello}[1]{%
-    \textbf{Quaerent says Hello to #1!}%
+
+\RequirePackage{kvoptions}
+
+%% Declare package options
+\SetupKeyvalOptions{
+    family = quatex,
+    prefix = quatex@,
 }
+
+\DeclareBoolOption[true]{reference}   % Import reference module
+\DeclareBoolOption[true]{math}        % Import math module
+\DeclareBoolOption[true]{layout}      % Import layout module
+\DeclareBoolOption[true]{environment} % Import environment module
+
+\DeclareBoolOption[true]{linkbox} % Link boxes
+\DeclareBoolOption[true]{fancy}   % Fancy header decorations
+
+\DeclareStringOption[]{author}   % Author name
+\DeclareStringOption[]{title}    % Document title
+\DeclareStringOption[]{subject}  % Document subject
+\DeclareStringOption[]{keywords} % Document keywords
+
+\DeclareBoolOption[true]{display}   % Math display style by default
+\DeclareBoolOption[true]{operators} % Custom math operators
+\DeclareBoolOption[true]{envs}      % Custom environments
+
+%% Process the options
+\ProcessKeyvalOptions*\relax
+
+\ifquatex@reference
+    \RequirePackage{quatex-reference}
+\fi
+\ifquatex@math
+    \RequirePackage{quatex-math}
+\fi
+\ifquatex@layout
+    \RequirePackage{quatex-layout}
+\fi
+\ifquatex@environment
+    \RequirePackage{quatex-environment}
+\fi
+
 %    \end{macrocode}
 % \end{macro}
 % 

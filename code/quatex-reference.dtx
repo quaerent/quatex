@@ -1,0 +1,213 @@
+% \iffalse
+%<*driver>
+\ProvidesFile{quatex-reference.dtx}
+%</driver>
+%<package>\NeedsTeXFormat{LaTeX2e}[2024-11-01]
+%<package>\ProvidesPackage{quatex-reference}
+%<package> [2025-12-19 v0.1 Quaerent's toolbox package]
+% \fi
+% 
+% \chapter{Cross References}
+% 
+% \StopEventually{}
+% 
+% \section{Implementation}
+% 
+% \subsection{Color Definitions}
+% 
+%    \begin{macrocode}
+
+\RequirePackage[rgb,table]{xcolor}
+
+\definecolor{UrlColor}{RGB}{255,127,100}
+\definecolor{CiteColor}{RGB}{127,230,252}
+
+%    \end{macrocode}
+%    
+% \subsection{Hyperref Setup}
+% 
+%    \begin{macrocode}
+
+\RequirePackage{hyperref}
+\RequirePackage{bookmark}
+
+\hypersetup{
+    linktoc = all,
+    colorlinks = true,
+    urlcolor = [rgb]{0.82,0.25,0.08},
+    pdfborder = {0 0 0},
+    pdflinkmargin = 1.0pt,
+    pdfdisplaydoctitle,
+}
+\hypersetup{
+    pdfauthor   = {\quatex@author},
+    pdftitle    = {\quatex@title},
+    pdfsubject  = {\quatex@subject},
+    pdfkeywords = {\quatex@keywords},
+    pdfcreator  = {LaTeX with hyperref, and biblatex/biber},
+}
+\bookmarksetup{numbered, open, openlevel=1}
+
+%    \end{macrocode}
+%    
+% \subsection{Link Boxes}
+% 
+% \begin{macro}{\refbox, \pagebox, \hrefbox, \citebox}
+%    \begin{macrocode}
+
+\RequirePackage{tcolorbox}
+
+%% Universal style options applied to all links
+\tcbset{
+    link/.style={
+        nobeforeafter, box align=base, boxsep=0em,
+        before upper={\vphantom{]}},
+        left=0.15em, right=0.15em, top=0.25ex, bottom=0.05ex,
+        arc=0.1em, rounded corners=all, boxrule=0.3mm,
+        grow sidewards by=0.05em,
+        enlarge bottom by=-0.05ex,
+        enlarge top by=-0.4ex,
+    }
+}
+
+%% Style modifications for different types of links
+\tcbset{
+    refbox/.style ={
+        colframe=black!30, colback=black!3,
+        fontupper=\sffamily,
+    },
+    pagebox/.style={
+        refbox, boxsep=0.1ex, bottom=0.25ex,
+        fontupper=\ttfamily,
+    },
+    hrefbox/.style={
+        colframe=black!10!UrlColor!70, colback=UrlColor!15,
+    },
+    citebox/.style={
+        left=0em, right=0em, bottom=0.25ex,
+        colframe=black!10!CiteColor!80, colback=CiteColor!20,
+        fontupper=\ttfamily,
+    },
+}
+
+%% Definition of the link boxes
+\NewTCBox{\refbox} {O{}}{link,refbox, #1}
+\NewTCBox{\pagebox}{O{}}{link,pagebox,#1}
+\NewTCBox{\hrefbox}{O{}}{link,hrefbox,#1}
+\NewTCBox{\citebox}{O{}}{link,citebox,#1}
+
+%% Use plain text if link boxes are disabled
+\ifquatex@linkbox\else
+    \RenewDocumentCommand{\refbox} {O{} m}{#2}
+    \RenewDocumentCommand{\pagebox}{O{} m}{\texttt{#2}}
+    \RenewDocumentCommand{\hrefbox}{O{} m}{#2}
+    \RenewDocumentCommand{\citebox}{O{} m}{\texttt{#2}}
+\fi
+
+%    \end{macrocode}
+% \end{macro}
+% 
+% \begin{macro}{\href, \url}
+%    \begin{macrocode}
+
+%% Save old commands
+\NewCommandCopy{\hrefold}{\href}
+\NewCommandCopy{\urlold}{\url}
+
+%% Enhance hyperlink commands with link boxes
+\RenewDocumentCommand{\href}{O{} m m}{\hrefold{#2}{\hrefbox[#1]{#3}}}
+\RenewDocumentCommand{\url}{O{} m}{\href[#1]{#2}{\nolinkurl{#2}}}
+
+%    \end{macrocode}
+% \end{macro}
+% 
+% \begin{macro}{\Cref, \Nref}
+%    \begin{macrocode}
+
+\RequirePackage{zref-titleref}
+\RequirePackage{zref-clever}
+
+\zcsetup{cap, noabbrev}
+
+%% Determine whether the label is on the same page
+%%   #1 - label
+%%   #2 - true branch
+%%   #3 - false branch
+\NewDocumentCommand{\IfLabelOnSamePageTF}{m m m}{%
+    \ifnum\value{page}=\zref@extractdefault{#1}{page}{0}%
+        #2%
+    \else
+        #3%
+    \fi
+}
+
+%% Generate a reference box with optional page info
+%%   #1 - star (*) for suppressing page info
+%%   #2 - target label
+%%   #3 - content inside the box
+\newcommand{\quatex@ref}[3]{%
+    \hyperref[#2]{%
+        \refbox[right=\IfBooleanTF{#1}{0.15em}{0.1em}]{%
+            #3%
+            \IfBooleanF{#1}{%
+                \textsuperscript{%
+                    \ttfamily\tiny\(\,\to\,\)%
+                    \IfLabelOnSamePageTF{#2}%
+                        {this page}%
+                        {p.\zpageref{#2}}%
+                }%
+            }%
+        }%
+    }%
+}
+
+%% Enhance the cross-reference commands
+\DeclareDocumentCommand{\Cref}{s m}
+    {\quatex@ref{#1}{#2}{\zcref*[noref]{#2}~\zcref*[noname]{#2}}}
+\DeclareDocumentCommand{\Nref}{s m}
+    {\quatex@ref{#1}{#2}{\ztitleref{#2}}}
+
+%    \end{macrocode}
+% \end{macro}
+% 
+% \begin{macro}{\cite}
+%    \begin{macrocode}
+
+\RequirePackage[style=ext-authoryear]{biblatex}
+
+%% Disable default outer delimiters
+\DeclareOuterCiteDelims{cite}{}{}
+
+%% Enhance the citation format
+\renewbibmacro*{cite}{%
+    \printtext[bibhyperref]{%
+        \citebox{%
+            \iffieldundef{postnote}{}{%
+                {%
+                    \normalfont%
+                    \hspace{0.18em}%
+                    \printfield{postnote}%
+                    \hspace{0.15em}%
+                }%
+            }%
+            \lbrack%
+            \printfield{labelprefix}%
+            \printfield{labelnumber}%
+            \ifbool{bbx:subentry}{\printfield{entrysetcount}}{}%
+            \rbrack%
+        }%
+    }%
+}
+
+%% Do not put commas between multiple citations 
+%%   when using `\cite{something,something}'
+\renewcommand*{\multicitedelim}{\space}
+
+%% Disable default postnote
+\renewbibmacro*{postnote}{}
+
+%    \end{macrocode}
+% \end{macro}
+% 
+% \Finale
+\endinput

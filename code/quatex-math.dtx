@@ -1,0 +1,377 @@
+% \iffalse
+%<*driver>
+\ProvidesFile{quatex-math.dtx}
+%</driver>
+%<package>\NeedsTeXFormat{LaTeX2e}[2024-11-01]
+%<package>\ProvidesPackage{quatex-math}
+%<package> [2025-12-19 v0.1 Quaerent's toolbox package]
+% \fi
+% 
+% \chapter{Math Features}
+% 
+% \StopEventually{}
+% 
+% \section{Implementation}
+% 
+% \subsection{TikZ Setup}
+% 
+%    \begin{macrocode}
+
+\RequirePackage{tikz}
+
+\usetikzlibrary{
+    fadings,
+    arrows.meta,
+    calc,
+    cd,
+    decorations.pathmorphing,
+    decorations.markings,
+    trees,
+    fit,
+    matrix,
+}
+
+%% Directory Tree Structure
+\tikzset{
+    % http://www.texample.net/tikz/examples/filesystem-tree/
+    dirtree/.style={
+        draw=black!80!cyan!40, thick, rounded corners=0.2em,
+        growth parent anchor=west,
+        grow via three points={one child at (1.0,-0.78) and
+            two children at (1.0,-0.78) and (1.0,-1.56)},
+        edge from parent path={%
+            ([xshift=1.2em]\tikzparentnode.south west)%
+            |- (\tikzchildnode.west)%
+        },
+        every node/.style={%
+            text=black,
+            anchor=west,
+            inner sep=0.7ex,
+            draw=black!70!cyan!35,
+            fill=black!10!cyan!3,
+            text depth=.25ex,
+            execute at begin node=\vphantom{Aj}
+        },
+        directory/.style={
+            draw=black!80!cyan!40,
+            fill=black!60!cyan!8,
+        },
+        font=\ttfamily,
+    },
+}
+
+%% A TikZ style for curved arrows of a fixed height, due to AndréC.
+\tikzset{
+    curve/.style={
+        settings={#1},
+        to path={
+            (\tikztostart)
+            .. controls ($
+                (\tikztostart)!\pv{pos}!(\tikztotarget)!
+                \pv{height}!270:(\tikztotarget)
+            $)
+            and ($
+                (\tikztostart)!1-\pv{pos}!(\tikztotarget)!
+                \pv{height}!270:(\tikztotarget)
+            $)
+            .. (\tikztotarget)\tikztonodes
+        }
+    },
+    settings/.code={
+        \tikzset{quiver/.cd,#1}
+        \def\pv##1{\pgfkeysvalueof{/tikz/quiver/##1}}
+    },
+    quiver/.cd,pos/.initial=0.35,
+    height/.initial=0,
+}
+
+%% TikZ arrowhead/tail styles.
+\tikzset{tail reversed/.code={\pgfsetarrowsstart{tikzcd to}}}
+\tikzset{2tail/.code={\pgfsetarrowsstart{Implies[reversed]}}}
+\tikzset{2tail reversed/.code={\pgfsetarrowsstart{Implies}}}
+
+%% TikZ arrow styles.
+\tikzset{no body/.style={/tikz/dash pattern=on 0 off 1mm}}
+
+%% Custom equal sign style - https://tex.stackexchange.com/a/443023
+\tikzset{
+    double line with arrow/.style args={#1,#2}{decorate,decoration={
+        markings,%
+        mark=at position 0 with {
+            \coordinate (ta-base-1) at (0,1.2pt);
+            \coordinate (ta-base-2) at (0,-1.2pt);
+        },
+        mark=at position 1 with {
+            \draw[#1] (ta-base-1) -- (0,1.2pt);
+            \draw[#2] (ta-base-2) -- (0,-1.2pt);
+        }
+    }},
+    Equal/.style args={#1}{-,double line with arrow={{-,#1},{-,#1}}},
+}
+
+%    \end{macrocode}
+% 
+% \subsection{Math Fonts}
+% 
+%    \begin{macrocode}
+
+\RequirePackage{amsfonts}
+\RequirePackage{amssymb}
+\RequirePackage{bm}
+
+%% Set the default bold math sans font to be `sbc` (sans bold condensed)
+%% https://tex.stackexchange.com/questions/27843/level-of-boldness-changeable
+\newcommand*{\mathsfbfdefault}{sbc}
+\SetMathAlphabet{\mathsf}{bold}{T1}{\sfdefault}{\mathsfbfdefault}{n}
+
+%% Math sans slanted font
+\DeclareMathAlphabet{\mathsfit}{T1}{\sfdefault}{\mddefault}{\sldefault}
+\SetMathAlphabet{\mathsfit}{bold}{T1}{\sfdefault}{\bfdefault}{\sldefault}
+
+%% When using sans font for surrounding text, also adapt the math font
+%%  -> use Computer Modern Bright when `\mathversion{sans}` is active
+%% see https://tex.stackexchange.com/q/33165
+%%     https://mirrors.nic.cz/tex-archive/fonts/cmbright/cmbright.pdf
+%% Requirements (font packages): `cmbright`, `hfbright`, `iwona`
+\DeclareMathVersion{sans}
+\SetSymbolFont{operators}{sans}{OT1}{cmbr}{m}{n}
+\SetSymbolFont{letters}{sans}{OML}{cmbrm}{m}{it}
+\SetSymbolFont{symbols}{sans}{OMS}{cmbrs}{m}{n}
+\SetSymbolFont{largesymbols}{sans}{OMX}{iwona}{m}{n}
+\SetMathAlphabet{\mathit}{sans}{OT1}{cmbr}{m}{sl}
+\SetMathAlphabet{\mathsf}{sans}{OT1}{lmss}{m}{n}
+\SetMathAlphabet{\mathbf}{sans}{OT1}{cmbr}{bx}{n}
+\SetMathAlphabet{\mathtt}{sans}{OT1}{cmtl}{m}{n}
+
+\DeclareMathVersion{boldsans}
+\SetSymbolFont{operators}{boldsans}{OT1}{cmbr}{b}{n}
+\SetSymbolFont{letters}{boldsans}{OML}{cmbrm}{b}{it}
+\SetSymbolFont{largesymbols}{boldsans}{OMX}{iwona}{bx}{n}
+\SetMathAlphabet{\mathit}{boldsans}{OT1}{cmbr}{b}{sl}
+\SetMathAlphabet{\mathsf}{boldsans}{OT1}{lmss}{\mathsfbfdefault}{n}
+\SetMathAlphabet{\mathbf}{boldsans}{OT1}{cmbr}{bx}{n}
+\SetMathAlphabet{\mathtt}{boldsans}{OT1}{cmtl}{b}{n}
+
+%%% Automatic switching between math versions
+\newif\ifInSansMode % keep track of whether we are in sans mode
+\newif\ifInBoldMode % keep track of whether we are in bold mode
+\AddToHook{cmd/sffamily/after}
+    {\InSansModetrue \ifInBoldMode\mathversion{boldsans}\else\mathversion{sans}\fi}
+\AddToHook{cmd/rmfamily/after}
+    {\InSansModefalse\ifInBoldMode\mathversion{bold}\else\mathversion{normal}\fi}
+\AddToHook{cmd/bfseries/after}
+    {\InBoldModetrue \ifInSansMode\mathversion{boldsans}\else\mathversion{bold}\fi}
+\AddToHook{cmd/mdseries/after}
+    {\InBoldModefalse\ifInSansMode\mathversion{sans}\else\mathversion{normal}\fi}
+
+%%`\mathbf{...}' is weird, use `\bm' with `\mathrm' instead
+\NewDocumentCommand{\bmrm}{m}{\bm{\mathrm{#1}}}
+
+%% Sans Greek Letters
+\DeclareSymbolFont{sfletters}{OML}{cmbrm}{m}{it}
+\DeclareSymbolFont{sflettersbold}{OML}{cmbrm}{b}{it}
+\DeclareMathSymbol{\sbGamma}{\mathalpha}{sflettersbold}{0}
+
+%% Alternative caligraphic math font `mathpazo`
+\DeclareMathAlphabet{\mathpzc}{OT1}{pzc}{m}{it}
+
+%% Load doublebrackets symbols (requires `stmaryrd` font package)
+\DeclareSymbolFont{stmry}{U}{stmry}{m}{n}
+\DeclareMathDelimiter{\dblbracketleft}{\mathopen}{stmry}{"4A}{stmry}{"71}
+\DeclareMathDelimiter{\dblbracketright}{\mathclose}{stmry}{"4B}{stmry}{"79}
+
+
+%% HACK: Reduce verbosity of "No alphabet change ..." messages
+%% https://tex.stackexchange.com/a/663843
+\let\old@font@info\@font@info
+\def\@font@info#1{%
+    \expandafter\ifx\csname\detokenize{#1}\endcsname\relax
+        \old@font@info{#1}%
+    \fi
+    \expandafter\xdef\csname\detokenize{#1}\endcsname{}%
+}
+
+%    \end{macrocode}
+% 
+% \subsection{Equations}
+% 
+%    \begin{macrocode}
+
+%% Display style math by default
+\ifquatex@display
+    \everymath{\displaystyle}
+\fi
+
+%    \end{macrocode}
+%    
+% \subsection{Custom Macros}
+% 
+%    \begin{macrocode}
+
+\ifquatex@operators
+
+\RequirePackage{mathtools}
+\RequirePackage{scalerel}
+\RequirePackage[extdef]{delimset}
+
+%% Fix spacing of `\left( .. \middle| .. \right)'
+\NewCommandCopy{\leftold}{\left}
+\NewCommandCopy{\rightold}{\right}
+\NewCommandCopy{\middleold}{\middle}
+\renewcommand*{\left}{\mathopen{}\mathclose\bgroup\leftold}
+\renewcommand*{\right}{\aftergroup\egroup\rightold}
+\RenewDocumentCommand{\middle}{sm}
+    {\IfBooleanTF{#1}{\.\middleold#2\.}{\mathrel{}\middleold#2\mathrel{}}}
+\NewDocumentCommand{\innermiddle}{m}
+    {\mathinner{}\middleold#1\mathinner{}}
+
+%% Use more direct name for common math operators
+\newcommand*{\union}{\cup}
+\newcommand*{\inter}{\cap}
+\newcommand*{\Union}{\bigcup}
+\newcommand*{\Inter}{\bigcap}
+\newcommand*{\disunion}{\sqcup}
+\newcommand*{\Disunion}{\bigsqcup}
+\newcommand*{\tensprod}{\otimes}
+\newcommand*{\directsum}{\oplus}
+\newcommand*{\Tensprod}{\bigotimes}
+\newcommand*{\Directsum}{\bigoplus}
+% Use starred version for left arrows
+\NewDocumentCommand{\mapinto}{s}
+    {\IfBooleanTF{#1}{\hookleftarrow}{\hookrightarrow}}
+\NewDocumentCommand{\maponto}{s}
+    {\IfBooleanTF{#1}{\twoheadleftarrow}{\twoheadrightarrow}}
+
+%% Helper macros
+\NewDocumentCommand{\raisemath}{m}
+    {\mathpalette{\raisemathAux{#1}}}
+\NewDocumentCommand{\raisemathAux}{m m m}
+    {\raisebox{#1}{\(#2#3\)}}
+\NewDocumentCommand{\scalemath}{m O{}}
+    {\mathpalette{\scalemathAux{#1}[#2]}}
+\NewDocumentCommand{\scalemathAux}{m O{} m m}
+    {\IfBlankTF{#2}{\scalebox{#1}{\(#3#4\)}}{\scalebox{#1}[#2]{\(#3#4\)}}}
+
+%% Quotient
+%%   #1 - raise amount for numerator (default: 0.2)
+%%   #2 - negative space amount before slash (default: 1.7)
+%%   #3 - numerator
+%%   #4 - denominator
+\NewDocumentCommand{\quotient}{O{0.2} O{1.7} m m}{
+    \left.\mspace{-1mu}\raisemath{#1em}{#3}
+    \mspace{-#2mu} \middle/ \mspace{-\fpeval{#2+1}mu}
+    \raisemath{-#1em}{#4} \mspace{-\fpeval{5*#1}mu} \right.
+}
+
+%% Sizeable bullet
+\NewDocumentCommand{\sbullet}{O{0.5}}{%
+    \mathbin{%
+        \ThisStyle{%
+            \vcenter{%
+                \hbox{%
+                    \scalebox{#1}{%
+                        \(\SavedStyle\bullet\)%
+                    }%
+                }%
+            }%
+        }%
+    }%
+}
+\NewDocumentCommand{\fdot}{}
+    {\mathcolor{black!80}{\sbullet[0.65]}}
+\NewDocumentCommand{\adot}{}
+    {\sbullet[0.52]}
+\NewDocumentCommand{\idot}{s}
+    {\mathcolor{darkgray}{\IfBooleanTF{#1}{\.\sbullet[0.4]\.}{\sbullet[0.4]}}}
+
+%% (abstract) index placeholders
+\NewDocumentCommand{\aind}{}{\bullet}
+\NewDocumentCommand{\dind}{}{\mathcolor{black!60}{\sbullet[1.2]}}
+\NewDocumentCommand{\ind}{}{\mathcolor{lightgray}{\bullet}}
+
+%% Argument placeholder
+\newsavebox{\argumentbox}
+\sbox{\argumentbox}{%
+    \begin{tikzpicture}[baseline=-0.6ex]
+        \node(char)[
+            draw,
+            shape=rectangle,
+            dash=on 1.2pt off 1.05pt phase 0.5pt,
+            dash expand off,
+            inner ysep=2pt,
+            inner xsep=2pt,
+            minimum size=0.6em,
+            rounded corners=2pt
+        ] {};
+    \end{tikzpicture}%
+}
+\NewDocumentCommand{\argument}{o}{% with optional scaling factor
+    \IfValueTF{#1}{%
+        \scalebox{#1}{\resizebox{!}{0.58em}{\usebox{\argumentbox}}}
+    }{%
+        \mathchoice
+            {\argument[1.0]}% display
+            {\argument[1.0]}% text
+            {\argument[0.7]}% script
+            {\argument[0.6]}% scriptscript
+    }%
+}
+
+\ExplSyntaxOn
+
+%% Math alphabets shortcuts
+% mathbb
+\clist_map_inline:nn { C, F, N, Q, R, Z }
+    { \cs_new:cpn {#1} {\mathbb{#1}} }
+% mathcal
+\clist_map_inline:nn { C, D, I, J }
+    { \cs_new:cpn {#1#1} {\mathcal{#1}} }
+% mathscr
+\clist_map_inline:nn { B, F, G }
+    { \cs_new:cpn {#1#1} {\mathscr{#1}} }
+% mathfrak
+\clist_map_inline:nn { b, c, m, P, Q, p, q }
+    { \cs_new:cpn {#1#1} {\mathfrak{#1}} }
+\newcommand*{\aaa}{\mathfrak{a}} % `\aa' is reserved in LaTeX
+
+%% Lie groups and algebras shortcuts
+\let\sl\relax % avoid conflict with `sl' command (which is deprecated)
+\clist_map_inline:nn { GL, SL, SO, U, SU, PGL, PSL }
+    { \cs_new:cpn {#1} {\mathsf{#1}} }
+\clist_map_inline:nn { gl, sl, so, su }
+    { \cs_new:cpn {#1} {\mathfrak{#1}} }
+\newcommand*{\OO}{\mathsf{O}}   % `\O' is reserved in LaTeX
+\newcommand*{\oo}{\mathfrak{o}} % `\o' is reserved in LaTeX
+
+%% Other common operators
+\DeclareMathOperator*{\colim}{colim} % colimit
+\DeclareMathOperator{\Char}{char}    % `\char' is reserved in LaTeX
+\clist_map_inline:nn {
+    % linear algebra
+    tr, adj, Span,
+    % group theory
+    Orb, Stab,
+    % number theory
+    lcm, Gal, ab, sep, al, inv, disc, Res, Cor,
+    % commutative algebra
+    Tor, Ext, Ann, Ass, Frac, rank,
+    % algebraic geometry
+    Spec, Supp, Div,
+    % lie algebra
+    Lie, AD, Ad, ad,
+    % category
+    Ob, Mor, Hom, End, Aut, Fun, id, im, coim, coker, op,
+    % infinite category
+    Map, LLP, RLP, Ho, sk, cosk,
+    % others
+    sign, vol,
+} { \expandafter\DeclareMathOperator\csname#1\endcsname{#1} }
+
+\ExplSyntaxOff
+
+\fi
+
+%    \end{macrocode}
+% 
+% \Finale
+\endinput

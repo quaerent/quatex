@@ -1,4 +1,6 @@
 {
   "Lua.diagnostics.enable": false,
-  "latex-workshop.latex.outDir": "%WORKSPACE_FOLDER%/build/doc"
+  "latex-workshop.latex.outDir": "%WORKSPACE_FOLDER%/build/doc",
+  "latex-workshop.latex.external.build.command": "l3build",
+  "latex-workshop.latex.external.build.args": ["doc"],
 }
