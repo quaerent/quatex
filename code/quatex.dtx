@@ -18,7 +18,7 @@
 %</driver>
 %<package>\NeedsTeXFormat{LaTeX2e}[2024-11-01]
 %<package>\ProvidesPackage{quatex}
-%<package> [2025-12-19 v0.1 Quaerent's toolbox package]
+%<package>  [2025-12-19 v0.1 Quaerent's toolbox package]
 %
 %<*driver>
 
@@ -50,7 +50,7 @@
 %</driver>
 % \fi
 %
-% \CheckSum{29}
+% \CheckSum{0}
 %
 % \CharacterTable
 %  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
@@ -109,7 +109,6 @@
 %   \quatex@envs
 % }
 %    \begin{macrocode}
-
 \RequirePackage{kvoptions}
 
 %% Declare package options
@@ -137,20 +136,6 @@
 
 %% Process the options
 \ProcessKeyvalOptions*\relax
-
-\ifquatex@reference
-    \RequirePackage{quatex-reference}
-\fi
-\ifquatex@math
-    \RequirePackage{quatex-math}
-\fi
-\ifquatex@layout
-    \RequirePackage{quatex-layout}
-\fi
-\ifquatex@environment
-    \RequirePackage{quatex-environment}
-\fi
-
 %    \end{macrocode}
 % \end{macro}
 % 

@@ -1,10 +1,15 @@
-% \iffalse
-%<*driver>
-\ProvidesFile{quatex-math.dtx}
-%</driver>
-%<package>\NeedsTeXFormat{LaTeX2e}[2024-11-01]
-%<package>\ProvidesPackage{quatex-math}
-%<package> [2025-12-19 v0.1 Quaerent's toolbox package]
+% \iffalse meta-comment
+% 
+% Copyright (C) 2025 by Quaerent <topfyf@qq.com>
+% -------------------------------------------------------
+% 
+% This file may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either
+% version 1.3 of this license or (at your option) any later
+% version. The latest version of this license is in:
+%
+%    http://www.latex-project.org/lppl.txt
+%
 % \fi
 % 
 % \chapter{Math Features}
@@ -16,7 +21,6 @@
 % \subsection{TikZ Setup}
 % 
 %    \begin{macrocode}
-
 \RequirePackage{tikz}
 
 \usetikzlibrary{
@@ -108,13 +112,11 @@
     }},
     Equal/.style args={#1}{-,double line with arrow={{-,#1},{-,#1}}},
 }
-
 %    \end{macrocode}
 % 
 % \subsection{Math Fonts}
 % 
 %    \begin{macrocode}
-
 \RequirePackage{amsfonts}
 \RequirePackage{amssymb}
 \RequirePackage{bm}
@@ -190,24 +192,20 @@
     \fi
     \expandafter\xdef\csname\detokenize{#1}\endcsname{}%
 }
-
 %    \end{macrocode}
 % 
 % \subsection{Equations}
 % 
 %    \begin{macrocode}
-
 %% Display style math by default
 \ifquatex@display
     \everymath{\displaystyle}
 \fi
-
 %    \end{macrocode}
 %    
 % \subsection{Custom Macros}
 % 
 %    \begin{macrocode}
-
 \ifquatex@operators
 
 \RequirePackage{mathtools}
@@ -370,7 +368,6 @@
 \ExplSyntaxOff
 
 \fi
-
 %    \end{macrocode}
 % 
 % \Finale

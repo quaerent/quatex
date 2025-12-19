@@ -3,4 +3,6 @@
   "latex-workshop.latex.outDir": "%WORKSPACE_FOLDER%/build/doc",
   "latex-workshop.latex.external.build.command": "l3build",
   "latex-workshop.latex.external.build.args": ["doc"],
+  "latex-workshop.latex.rootFile.useSubFile": false,
+  "latex-workshop.latex.search.rootFiles.include": ["code/quatex.dtx"]
 }

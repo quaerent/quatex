@@ -34,11 +34,15 @@ LaTeX version 2005/12/01 or later.
 
 \endpreamble
 
-\generate{\file{quatex.sty}{\from{quatex.dtx}{package}}}
-\generate{\file{quatex-reference.sty}{\from{quatex-reference.dtx}{package}}}
-\generate{\file{quatex-math.sty}{\from{quatex-math.dtx}{package}}}
-\generate{\file{quatex-layout.sty}{\from{quatex-layout.dtx}{package}}}
-\generate{\file{quatex-environment.sty}{\from{quatex-environment.dtx}{package}}}
+\generate{
+   \file{quatex.sty}{
+      \from{quatex.dtx}{package}
+      \from{quatex-reference.dtx}{package}
+      \from{quatex-math.dtx}{package}
+      \from{quatex-layout.dtx}{package}
+      \from{quatex-environment.dtx}{package}
+   }
+}
 
 \obeyspaces
 \Msg{****************************************************}
@@ -47,10 +51,6 @@ LaTeX version 2005/12/01 or later.
 \Msg{* following file into a directory searched by TeX: *}
 \Msg{*                                                  *}
 \Msg{*     quatex.sty                                   *}
-\Msg{*     quatex-reference.sty                         *}
-\Msg{*     quatex-math.sty                              *}
-\Msg{*     quatex-layout.sty                            *}
-\Msg{*     quatex-environment.sty                       *}
 \Msg{*                                                  *}
 \Msg{* To produce the documentation run the file        *}
 \Msg{* quatex.dtx through LaTeX.                        *}
