@@ -18,6 +18,12 @@
 % 
 % \section{Implementation}
 % 
+% \subsection{Begin}
+% 
+%    \begin{macrocode}
+\ifquatex@reference % begin of reference module
+%    \end{macrocode}
+% 
 % \subsection{Color Definitions}
 % 
 %    \begin{macrocode}
@@ -201,6 +207,12 @@
 \renewbibmacro*{postnote}{}
 %    \end{macrocode}
 % \end{macro}
+% 
+% \subsection{End}
+% 
+%    \begin{macrocode}
+\fi % end of reference module
+%    \end{macrocode}
 % 
 % \Finale
 \endinput

@@ -119,6 +119,7 @@
 
 \DeclareBoolOption[true]{reference}   % Import reference module
 \DeclareBoolOption[true]{math}        % Import math module
+\DeclareBoolOption[false]{onlymath}   % Import only math module
 \DeclareBoolOption[true]{layout}      % Import layout module
 \DeclareBoolOption[true]{environment} % Import environment module
 
@@ -136,6 +137,14 @@
 
 %% Process the options
 \ProcessKeyvalOptions*\relax
+
+\ifquatex@onlymath
+    \setkeys{quatex}{
+        reference = false,
+        layout = false,
+        environment = false,
+    }
+\fi
 %    \end{macrocode}
 % \end{macro}
 % 

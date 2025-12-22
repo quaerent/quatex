@@ -17,6 +17,12 @@
 % \StopEventually{}
 % 
 % \section{Implementation}
+%
+% \subsection{Begin}
+% 
+%    \begin{macrocode}
+\ifquatex@math % begin of math module
+%    \end{macrocode}
 % 
 % \subsection{TikZ Setup}
 % 
@@ -370,5 +376,11 @@
 \fi
 %    \end{macrocode}
 % 
+% \subsection{End}
+% 
+%    \begin{macrocode}
+\fi % end of math module
+%    \end{macrocode}
+%
 % \Finale
 \endinput

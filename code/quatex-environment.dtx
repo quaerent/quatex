@@ -18,6 +18,12 @@
 % 
 % \section{Implementation}
 % 
+% \subsection{Begin}
+% 
+%    \begin{macrocode}
+\ifquatex@environment % begin of environment module
+%    \end{macrocode}
+% 
 % \subsection{Common Styles}
 % 
 % \begin{macro}{\qedhere, \DeclareCleverTypeName}
@@ -188,5 +194,11 @@
 %    \end{macrocode}
 % \end{macro}
 % 
+% \subsection{End}
+% 
+%    \begin{macrocode}
+\fi % end of environment module
+%    \end{macrocode}
+%
 % \Finale
 \endinput 
