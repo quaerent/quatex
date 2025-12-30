@@ -7,6 +7,7 @@
 %%   #1 - label
 %%   #2 - true branch
 %%   #3 - false branch
+\makeatletter
 \NewDocumentCommand{\IfLabelOnSamePageTF}{m m m}{%
   \ifnum\value{page}=\zref@extractdefault{#1}{page}{0}%
     #2%
@@ -14,6 +15,7 @@
     #3%
   \fi
 }
+\makeatother
 
 %% Generate a reference box with optional page info
 %%   #1 - star (*) for suppressing page info
