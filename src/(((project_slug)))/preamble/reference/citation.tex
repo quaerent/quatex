@@ -14,9 +14,19 @@
 
 \newcommand*{\references}{
   \defbibheading{bibintoclabel}[\bibname]{%
-    \chapter*{##1}%
+    \ifdefined\chapter%
+      \chapter*{##1}%
+    \else%
+      \section*{##1}%
+    \fi%
     \label{ch:References}%
-    \addcontentsline{toc}{chapter}{##1}%
+    \addcontentsline{toc}{%
+      \ifdefined\chapter%
+        chapter%
+      \else%
+        section%
+      \fi%
+    }{##1}%
     \markboth{##1}{##1}%
   }
   \defbibnote{note}{%
