@@ -1,0 +1,50 @@
+\usepackage{titletoc}
+\usepackage{tocbibind}
+
+%% Numbering depth and TOC depth
+\ifdefined\chapter
+  % For documents with chapters:
+  %   number up to sections, TOC up to subsections
+  \setcounter{secnumdepth}{1}
+  \setcounter{tocdepth}{2}
+\else
+  % For documents without chapters:
+  %   number up to subsections, TOC up to subsubsections
+  \setcounter{secnumdepth}{2}
+  \setcounter{tocdepth}{3}
+\fi
+\contentsmargin[0.6em]{2em}
+
+%% TOC entry styles
+% Primary entries
+\titlecontents{\ifdefined\chapter chapter\else section\fi}
+  [1.6em]{\addvspace{2.4ex}\bfseries}
+  {\contentslabel{1.4em}}{\hspace*{-1.4em}}
+  {\hfill\normalfont\contentspage[\bfseries\thecontentspage]}
+% Secondary entries
+\titlecontents{\ifdefined\chapter section\else subsection\fi}
+  [4em]{\addvspace{1.2ex}}
+  {\contentslabel{2.3em}}{\hspace*{-2.3em}}
+  {\textcolor{gray}{\titlerule*[9pt]{.}}\contentspage}
+% Tertiary entries
+\newcommand*{\sspace}{\hspace{0.34em plus 0.5em minus 0.12em}}
+\titlecontents*{\ifdefined\chapter subsection\else subsubsection\fi}
+  [4.7em]{\footnotesize\color{Gray40}}
+  {}{}{~\thecontentspage}
+  [][\sspace\textbullet\sspace][\hspace*{0.6em}\vspace{0.1em}]
+% Part entries
+\titlecontents{part}
+  [2em]{\addvspace{3ex}\filcenter}
+  {\small \partname~\thecontentslabel\\*[-0.2ex]\Large\bfseries}
+  {\Large\bfseries}{}
+  [\addvspace{1.0ex}]
+
+%% Make table of contents
+\NewDocumentCommand{\QuaTOC}{}{
+  \cleardoublepage
+  {
+    \hypersetup{hidelinks}
+    \tableofcontents
+  }
+  \cleardoublepage
+}

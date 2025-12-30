@@ -1,0 +1,53 @@
+\usepackage{keytheorems}
+\usepackage{tcolorbox}
+
+\tcbuselibrary{skins, breakable, theorems}
+
+%% Default style options for `tcolorbox` environments
+% Save depth of character "j" (typical descender)
+\newlength{\depthofj} \settodepth{\depthofj}{j}
+\tcbset{
+  skin=enhanced,
+  colframe=black, colback=white,
+  boxrule=0.4pt, arc=3pt, boxsep=0em,
+  left=0.9em, right=0.9em, top=1.3ex, bottom=1.3ex-0.8\depthofj,
+  % enlarge bottom at break by=-\depthofj,
+  % pad at break*=3ex,
+  beforeafter skip=0.5\baselineskip plus 2pt,
+}
+% Persist font color from the text before the box
+% see https://github.com/T-F-S/tcolorbox/issues/305
+\tcbset{every box/.style={coltext=.}}
+
+%% Definitions of theorem/remark-like environments
+\newkeytheoremstyle{thmcommon}{
+  headfont=\bfseries\sffamily,
+  notefont=\mdseries\sffamily,
+  bodyfont=\normalfont,
+  headpunct={\strut.},
+}
+
+%% More flexible placement of "qed" symbol
+\NewCommandCopy{\qedhereold}{\qedhere}
+% #1 - star (*) for shift corresponding to big operators
+% #2 - optional argument for custom shift length
+\RenewDocumentCommand{\qedhere}{s o}{%
+  \def\qedshift{0.6ex}%
+  \IfBooleanT{#1}{\def\qedshift{1.5ex}}%
+  \IfValueT{#2}{\def\qedshift{#2}}%
+  \NewCommandCopy{\qedsymbolold}{\qedsymbol}%
+  \renewcommand*{\qedsymbol}{\raisebox{-\qedshift}{\qedsymbolold}}%
+  \qedhereold%
+}
+
+%% Automatic `zcref` type name declaration for theorem-like environments
+%%   #1 - type name
+%%   #2 - plural form (optional)
+\NewDocumentCommand{\DeclareCleverTypeName}{m o}{
+  \zcRefTypeSetup{#1}{
+    name-sg = #1,
+    Name-sg = \MakeTitlecase{#1},
+    name-pl = \IfValueTF{#2}{#2}{#1s},
+    Name-pl = \MakeTitlecase{\IfValueTF{#2}{#2}{#1}s},
+  }
+}

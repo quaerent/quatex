@@ -1,0 +1,69 @@
+[template]
+name = "QuaTeX"
+authors = ["Quaerent"]
+description = "A LaTeX template for writing technical documents with ease."
+
+[meta]
+title = { type = "str" }
+author = { type = "str" }
+subject = { type = "str", default = "" }
+keywords = { type = "str", default = "" }
+
+[meta.project_slug]
+type = "str"
+prompt = "Directory name for the project"
+default = "((( title | lower | replace(' ', '_') )))"
+
+[meta.filename]
+type = "str"
+prompt = "Main LaTeX filename (without .tex extension)"
+default = "((( project_slug )))"
+
+[meta.document_class]
+type = "str"
+choices = ["article", "report", "book"]
+
+[meta.enable_layout]
+type = "bool"
+prompt = "Enable layout module?"
+default = true
+
+[meta.fancy_header_footer]
+type = "bool"
+prompt = "Use fancy headers and footers?"
+default = true
+
+[meta.enable_reference]
+type = "bool"
+prompt = "Enable reference module?"
+default = true
+
+[meta.enable_environment]
+type = "bool"
+prompt = "Enable environment module?"
+default = true
+
+[meta.define_custom_environments]
+type = "bool"
+prompt = "Define custom environments?"
+default = true
+
+[meta.enable_math]
+type = "bool"
+prompt = "Enable math module?"
+default = true
+
+[meta.use_math_fonts]
+type = "bool"
+prompt = "Use additional math fonts?"
+default = true
+
+[meta.display_equation_style]
+type = "bool"
+prompt = "Display equations in display style?"
+default = true
+
+[meta.define_custom_math_commands]
+type = "bool"
+prompt = "Define custom math commands?"
+default = true

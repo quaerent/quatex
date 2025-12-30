@@ -1,0 +1,83 @@
+\usepackage{fancyhdr}
+\usepackage{tikz}
+
+%% Disable `fancyhdr` warning on `E` option
+\makeatletter
+\def\f@nch@fancyhf@Echeck#1{}
+\makeatother
+
+%% Define left/right padding of header
+\newlength{\headerpadding}
+\setlength{\headerpadding}{2pt}
+
+%% Style of the header rule and decorations
+\renewcommand*{\headrulewidth}{0.9pt}
+\usetikzlibrary{arrows.meta, fadings}
+\tikzset{
+  header rule/.style={HeaderRuleColor},
+  header decor/.style={
+    HeaderRuleColor,
+    line width=1.0pt,
+    -{Diamond[open]},
+    overlay,
+  },
+}
+
+%% Save header rules for faster compile time
+\newsavebox{\defaultheaderrule}
+\newsavebox{\chapterheaderrule}
+% Default header - full width
+\sbox{\defaultheaderrule}{%
+  \tikz[baseline=-1em]{
+    \fill[header rule] (0,0) rectangle (\textwidth,\headrulewidth);
+    ((* if fancy_header_footer *))
+    \draw[header decor]
+    (\textwidth,\headrulewidth/2)
+    -- ++( 7pt,0);
+    \draw[header decor]
+    (         0,\headrulewidth/2)
+    -- ++(-7pt,0);
+    ((* endif *))
+  }%
+}
+% Chapter page header - half width
+\sbox{\chapterheaderrule}{%
+  \tikz[baseline=-1em]{
+    \fill[header rule, path fading=west]
+      (0,0) rectangle (0.45\textwidth,\headrulewidth);
+    ((* if fancy_header_footer *))
+    \draw[header decor]
+      (0.45\textwidth,\headrulewidth/2) -- ++(7pt,0);
+    ((* endif *))
+  }%
+}
+
+%% Default header style
+\fancypagestyle{header}{
+  \renewcommand*{\headrule}{%
+    \usebox{\defaultheaderrule}\linebreak[1]%
+  }
+  \fancyhead[LO]{%
+    \hspace{\headerpadding}%
+    \textcolor{HeaderColor}%
+    {\textsf{\nouppercase{\rightmark}}}%
+  }
+  \fancyhead[RE]{%
+    \color{HeaderColor}%
+    \textsf{\nouppercase{\rightmark}}%
+    \hspace{\headerpadding}%
+  }
+  \fancyhead[RO]{\textbf{\thepage}\hspace{\headerpadding}}
+  \fancyhead[LE]{\hspace{\headerpadding}\textbf{\thepage}}
+  \fancyfoot{}
+}
+
+%% Chapter header style
+\fancypagestyle{plain}[header]{
+  \renewcommand*{\headrule}{%
+    \hfill\usebox{\chapterheaderrule}\linebreak[1]%
+  }
+  \fancyhead[LO,RE]{}
+}
+
+\pagestyle{header}

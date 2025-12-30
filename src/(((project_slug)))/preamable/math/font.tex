@@ -1,0 +1,77 @@
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{bm}
+
+((* if use_math_fonts *))
+%% Set the default bold math sans font to be `sbc` (sans bold condensed)
+%% https://tex.stackexchange.com/questions/27843/level-of-boldness-changeable
+\newcommand*{\mathsfbfdefault}{sbc}
+\SetMathAlphabet{\mathsf}{bold}{T1}{\sfdefault}{\mathsfbfdefault}{n}
+
+%% Math sans slanted font
+\DeclareMathAlphabet{\mathsfit}{T1}{\sfdefault}{\mddefault}{\sldefault}
+\SetMathAlphabet{\mathsfit}{bold}{T1}{\sfdefault}{\bfdefault}{\sldefault}
+
+%% When using sans font for surrounding text, also adapt the math font
+%%  -> use Computer Modern Bright when `\mathversion{sans}` is active
+%% see https://tex.stackexchange.com/q/33165
+%%     https://mirrors.nic.cz/tex-archive/fonts/cmbright/cmbright.pdf
+%% Requirements (font packages): `cmbright`, `hfbright`, `iwona`
+\DeclareMathVersion{sans}
+\SetSymbolFont{operators}{sans}{OT1}{cmbr}{m}{n}
+\SetSymbolFont{letters}{sans}{OML}{cmbrm}{m}{it}
+\SetSymbolFont{symbols}{sans}{OMS}{cmbrs}{m}{n}
+\SetSymbolFont{largesymbols}{sans}{OMX}{iwona}{m}{n}
+\SetMathAlphabet{\mathit}{sans}{OT1}{cmbr}{m}{sl}
+\SetMathAlphabet{\mathsf}{sans}{OT1}{lmss}{m}{n}
+\SetMathAlphabet{\mathbf}{sans}{OT1}{cmbr}{bx}{n}
+\SetMathAlphabet{\mathtt}{sans}{OT1}{cmtl}{m}{n}
+
+\DeclareMathVersion{boldsans}
+\SetSymbolFont{operators}{boldsans}{OT1}{cmbr}{b}{n}
+\SetSymbolFont{letters}{boldsans}{OML}{cmbrm}{b}{it}
+\SetSymbolFont{largesymbols}{boldsans}{OMX}{iwona}{bx}{n}
+\SetMathAlphabet{\mathit}{boldsans}{OT1}{cmbr}{b}{sl}
+\SetMathAlphabet{\mathsf}{boldsans}{OT1}{lmss}{\mathsfbfdefault}{n}
+\SetMathAlphabet{\mathbf}{boldsans}{OT1}{cmbr}{bx}{n}
+\SetMathAlphabet{\mathtt}{boldsans}{OT1}{cmtl}{b}{n}
+
+%%% Automatic switching between math versions
+\newif\ifInSansMode % keep track of whether we are in sans mode
+\newif\ifInBoldMode % keep track of whether we are in bold mode
+\AddToHook{cmd/sffamily/after}
+    {\InSansModetrue \ifInBoldMode\mathversion{boldsans}\else\mathversion{sans}\fi}
+\AddToHook{cmd/rmfamily/after}
+    {\InSansModefalse\ifInBoldMode\mathversion{bold}\else\mathversion{normal}\fi}
+\AddToHook{cmd/bfseries/after}
+    {\InBoldModetrue \ifInSansMode\mathversion{boldsans}\else\mathversion{bold}\fi}
+\AddToHook{cmd/mdseries/after}
+    {\InBoldModefalse\ifInSansMode\mathversion{sans}\else\mathversion{normal}\fi}
+
+%%`\mathbf{...}` is weird, use `\bm` with `\mathrm` instead
+\NewDocumentCommand{\bmrm}{m}{\bm{\mathrm{#1}}}
+
+%% Sans Greek Letters
+\DeclareSymbolFont{sfletters}{OML}{cmbrm}{m}{it}
+\DeclareSymbolFont{sflettersbold}{OML}{cmbrm}{b}{it}
+\DeclareMathSymbol{\sbGamma}{\mathalpha}{sflettersbold}{0}
+
+%% Alternative caligraphic math font `mathpazo`
+\DeclareMathAlphabet{\mathpzc}{OT1}{pzc}{m}{it}
+
+%% Load doublebrackets symbols (requires `stmaryrd` font package)
+\DeclareSymbolFont{stmry}{U}{stmry}{m}{n}
+\DeclareMathDelimiter{\dblbracketleft}{\mathopen}{stmry}{"4A}{stmry}{"71}
+\DeclareMathDelimiter{\dblbracketright}{\mathclose}{stmry}{"4B}{stmry}{"79}
+
+
+%% HACK: Reduce verbosity of "No alphabet change ..." messages
+%% https://tex.stackexchange.com/a/663843
+\let\old@font@info\@font@info
+\def\@font@info#1{%
+    \expandafter\ifx\csname\detokenize{#1}\endcsname\relax
+        \old@font@info{#1}%
+    \fi
+    \expandafter\xdef\csname\detokenize{#1}\endcsname{}%
+}
+((* endif *))

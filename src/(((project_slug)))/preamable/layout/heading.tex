@@ -1,0 +1,74 @@
+\usepackage[newparttoc, clearempty]{titlesec}
+
+%% Chapter without number, but included in header and TOC
+\NewDocumentCommand{\chapternotnumbered}{m}{
+  \chapter*{#1}
+  \markboth{#1}{#1}
+  \addcontentsline{toc}{chapter}{#1}
+}
+
+%% Title formatting (section, subsection, paragraph, part)
+\titleformat{\section}
+  {\MakeLinkTarget[section]{}\Large\sffamily\bfseries}
+  {\thesection}
+  {0.8em}{}
+\titleformat{\subsection}
+  {\MakeLinkTarget[subsection]{}\large\sffamily\bfseries}
+  {\thesubsection}
+  {0.8em}{}
+\titleformat{\paragraph}[runin]
+  {\MakeLinkTarget[paragraph]{}\normalsize\sffamily\bfseries}
+  {\theparagraph}
+  {0em}{}
+\titleformat{\part}[display]
+  {\thispagestyle{empty}\sffamily}
+  {\LARGE \partname~\Romanbar{\thepart}}
+  {0.2em}{\fontsize{30pt}{36pt}\selectfont\bfseries}
+
+%% Format the chapter heading letter
+%%   #1 - chapter number or first letter of chapter title
+\NewDocumentCommand{\chapterheadingletter}{m}{%
+  \makebox[0pt][l]{%
+    \raisebox{-16pt}[0pt][0pt]{%
+      \hspace{0.55em}\color{ChapterNumberColor}%
+      \usefont{T1}{qzc}{m}{it}\fontsize{95pt}{95pt}\selectfont%
+      #1%
+    }%
+  }%
+}
+
+%% Format the chapter heading
+%%   #1 - star (*) if unnumbered chapter
+%%   #2 - chapter numbering
+%%   #3 - chapter title
+\NewDocumentCommand{\chaphead}{s O{} m}{
+  \vspace*{-25pt}% header top margin
+  {%
+    \setlength{\parindent}{0pt}\raggedright%
+    \Huge\sffamily\bfseries%
+    ((* if fancy_header_footer *))
+    \chapterheadingletter{#2}%
+    ((* else *))
+    \IfBooleanF{#1}{#2\hspace{0.7em}}%
+    ((* endif *))
+    #3\par\nobreak%
+    \vspace{20pt}% header bottom margin
+  }%
+}
+
+%% Title formatting (chapter)
+\makeatletter
+% for numbered Chapters simply use their number
+\def\@makechapterhead#1{\chaphead[\thechapter]{#1}}
+% extract first letter of the unnumbered Chapter title 
+\def\@makeschapterhead#1{\chaphead*[\ExtractLeadingChars{#1}]{#1}}
+\makeatother
+
+%% Extract leading characters from a string
+%%   #1 - number of leading characters to extract (default: 1)
+%%   #2 - input string
+\ExplSyntaxOn
+\cs_generate_variant:Nn \tl_item:nn { f }
+\NewDocumentCommand {\ExtractLeadingChars} {O{1} m}
+  { \tl_item:fn {#2} {#1} }
+\ExplSyntaxOff

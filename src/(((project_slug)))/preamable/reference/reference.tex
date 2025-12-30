@@ -1,0 +1,42 @@
+\usepackage{zref-titleref}
+\usepackage{zref-clever}
+
+\zcsetup{cap, noabbrev}
+
+%% Determine whether the label is on the same page
+%%   #1 - label
+%%   #2 - true branch
+%%   #3 - false branch
+\NewDocumentCommand{\IfLabelOnSamePageTF}{m m m}{%
+  \ifnum\value{page}=\zref@extractdefault{#1}{page}{0}%
+    #2%
+  \else
+    #3%
+  \fi
+}
+
+%% Generate a reference box with optional page info
+%%   #1 - star (*) for suppressing page info
+%%   #2 - target label
+%%   #3 - content inside the box
+\newcommand{\makerefbox}[3]{%
+  \hyperref[#2]{%
+    \refbox[right=\IfBooleanTF{#1}{0.15em}{0.1em}]{%
+      #3%
+      \IfBooleanF{#1}{%
+        \textsuperscript{%
+          \ttfamily\tiny\(\,\to\,\)%
+          \IfLabelOnSamePageTF{#2}%
+            {this page}%
+            {p.\zpageref{#2}}%
+        }%
+      }%
+    }%
+  }%
+}
+
+%% Enhance the cross-reference commands
+\DeclareDocumentCommand{\Cref}{s m}
+  {\makerefbox{#1}{#2}{\zcref*[noref]{#2}~\zcref*[noname]{#2}}}
+\DeclareDocumentCommand{\Nref}{s m}
+  {\makerefbox{#1}{#2}{\ztitleref{#2}}}

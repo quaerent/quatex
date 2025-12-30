@@ -1,0 +1,43 @@
+\makeatletter
+\ifdefined\chapter
+  %% Backup original commands
+  \ifdefined\frontmatter
+    \NewCommandCopy{\frontmatterold}{\frontmatter}
+  \else
+    \let\frontmatterold\relax
+  \fi
+  \ifdefined\mainmatter
+    \NewCommandCopy{\mainmatterold}{\mainmatter}
+  \else
+    \let\mainmatterold\relax
+  \fi
+  \ifdefined\backmatter
+    \NewCommandCopy{\backmatterold}{\backmatter}
+  \else
+    \let\backmatterold\relax
+  \fi
+
+  %% Redefine commands
+  \DeclareDocumentCommand{\frontmatter}{}{
+    \frontmatterold
+    \pagenumbering{roman}
+    \ifdefined\chapter
+      \gdef\thechapter{\@Alph\c@chapter}
+    \fi
+  }
+  \DeclareDocumentCommand{\mainmatter}{}{
+    \mainmatterold
+    \cleardoublepage
+    \pagenumbering{arabic}
+    \setcounter{section}{0}
+    \ifdefined\chapter
+        \setcounter{chapter}{0}
+        \gdef\thechapter{\@arabic\c@chapter}
+    \fi
+  }
+  \DeclareDocumentCommand{\backmatter}{}{
+    \backmatterold
+    \bookmarksetup{startatroot}
+  }
+\fi
+\makeatother
