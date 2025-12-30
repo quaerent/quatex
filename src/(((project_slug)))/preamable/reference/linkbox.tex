@@ -1,4 +1,4 @@
-((* if enable_colorful_box *))
+((* if use_colorful_box *))
 \usepackage{tcolorbox}
 
 %% Universal style options applied to all links
@@ -41,10 +41,10 @@
 \NewTCBox{\citebox}{O{}}{link,citebox,#1}
 ((* else *))
 %% Definition of the link boxes
-\RenewDocumentCommand{\refbox} {O{} m}{#2}
-\RenewDocumentCommand{\pagebox}{O{} m}{\texttt{#2}}
-\RenewDocumentCommand{\hrefbox}{O{} m}{#2}
-\RenewDocumentCommand{\citebox}{O{} m}{\texttt{#2}}
+\NewDocumentCommand{\refbox} {O{} m}{#2}
+\NewDocumentCommand{\pagebox}{O{} m}{\texttt{#2}}
+\NewDocumentCommand{\hrefbox}{O{} m}{#2}
+\NewDocumentCommand{\citebox}{O{} m}{\texttt{#2}}
 ((* endif *))
 
 %% Save old commands

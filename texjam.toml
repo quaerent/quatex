@@ -38,6 +38,11 @@ type = "bool"
 prompt = "Enable reference module?"
 default = true
 
+[meta.use_colorful_box]
+type = "bool"
+prompt = "Use colorful boxes for references?"
+default = true
+
 [meta.enable_environment]
 type = "bool"
 prompt = "Enable environment module?"
