@@ -3,39 +3,28 @@
 
 \zcsetup{cap, noabbrev}
 
-%% Determine whether the label is on the same page
-%%   #1 - label
-%%   #2 - true branch
-%%   #3 - false branch
-\makeatletter
-\NewDocumentCommand{\IfLabelOnSamePageTF}{m m m}{%
-  \ifnum\value{page}=\zref@extractdefault{#1}{page}{0}%
-    #2%
-  \else
-    #3%
-  \fi
-}
-\makeatother
-
 %% Generate a reference box with optional page info
 %%   #1 - star (*) for suppressing page info
 %%   #2 - target label
 %%   #3 - content inside the box
+%% TODO: check if the reference is on the same page
+\makeatletter
 \newcommand{\makerefbox}[3]{%
   \hyperref[#2]{%
-    \refbox[right=\IfBooleanTF{#1}{0.15em}{0.1em}]{%
+    \refbox[right={\IfBooleanTF{#1}{0.15em}{0.1em}}]{%
       #3%
       \IfBooleanF{#1}{%
         \textsuperscript{%
           \ttfamily\tiny\(\,\to\,\)%
-          \IfLabelOnSamePageTF{#2}%
-            {this page}%
+          \zref@ifrefundefined{#2}%
+            {undefined}%
             {p.\zpageref{#2}}%
         }%
       }%
     }%
   }%
 }
+\makeatother
 
 %% Enhance the cross-reference commands
 \DeclareDocumentCommand{\Cref}{s m}
