@@ -466,14 +466,14 @@ files = [
 
 [[package]]
 name = "texjam"
-version = "0.4.2"
+version = "0.4.4"
 description = "A scaffold for LaTeX templates."
 optional = false
 python-versions = "<4.0,>=3.11"
 groups = ["main"]
 files = [
-    {file = "texjam-0.4.2-py3-none-any.whl", hash = "sha256:17b67395727d5ade99b4e43f0e55a48721e1076f32f7cebdf20f26966a696a5c"},
-    {file = "texjam-0.4.2.tar.gz", hash = "sha256:3aa7229b374ae350d580808310bade74e42c499b516ad3055fbc42d92614e112"},
+    {file = "texjam-0.4.4-py3-none-any.whl", hash = "sha256:89da6ffa42a967361783f59e10134660e2d74b84d59f755ff078775fc8fb6643"},
+    {file = "texjam-0.4.4.tar.gz", hash = "sha256:ad1bc72dd04ce17d7caca1af71a8f2b33c976082303360e9a0c63257e115f255"},
 ]
 
 [package.dependencies]
