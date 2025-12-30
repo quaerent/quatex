@@ -67,6 +67,7 @@
 
 %% HACK: Reduce verbosity of "No alphabet change ..." messages
 %% https://tex.stackexchange.com/a/663843
+\makeatletter
 \let\old@font@info\@font@info
 \def\@font@info#1{%
   \expandafter\ifx\csname\detokenize{#1}\endcsname\relax
@@ -74,4 +75,5 @@
   \fi
   \expandafter\xdef\csname\detokenize{#1}\endcsname{}%
 }
+\makeatother
 ((* endif *))

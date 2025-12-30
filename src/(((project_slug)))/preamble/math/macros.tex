@@ -27,19 +27,19 @@
 \newcommand*{\Directsum}{\bigoplus}
 % Use starred version for left arrows
 \NewDocumentCommand{\mapinto}{s}
-    {\IfBooleanTF{#1}{\hookleftarrow}{\hookrightarrow}}
+  {\IfBooleanTF{#1}{\hookleftarrow}{\hookrightarrow}}
 \NewDocumentCommand{\maponto}{s}
-    {\IfBooleanTF{#1}{\twoheadleftarrow}{\twoheadrightarrow}}
+  {\IfBooleanTF{#1}{\twoheadleftarrow}{\twoheadrightarrow}}
 
 %% Helper macros
 \NewDocumentCommand{\raisemath}{m}
-    {\mathpalette{\raisemathAux{#1}}}
+  {\mathpalette{\raisemathAux{#1}}}
 \NewDocumentCommand{\raisemathAux}{m m m}
-    {\raisebox{#1}{\(#2#3\)}}
+  {\raisebox{#1}{\(#2#3\)}}
 \NewDocumentCommand{\scalemath}{m O{}}
-    {\mathpalette{\scalemathAux{#1}[#2]}}
+  {\mathpalette{\scalemathAux{#1}[#2]}}
 \NewDocumentCommand{\scalemathAux}{m O{} m m}
-    {\IfBlankTF{#2}{\scalebox{#1}{\(#3#4\)}}{\scalebox{#1}[#2]{\(#3#4\)}}}
+  {\IfBlankTF{#2}{\scalebox{#1}{\(#3#4\)}}{\scalebox{#1}[#2]{\(#3#4\)}}}
 
 %% Quotient
 %%   #1 - raise amount for numerator (default: 0.2)
@@ -67,11 +67,11 @@
     }%
 }
 \NewDocumentCommand{\fdot}{}
-    {\mathcolor{black!80}{\sbullet[0.65]}}
+  {\mathcolor{black!80}{\sbullet[0.65]}}
 \NewDocumentCommand{\adot}{}
-    {\sbullet[0.52]}
+  {\sbullet[0.52]}
 \NewDocumentCommand{\idot}{s}
-    {\mathcolor{darkgray}{\IfBooleanTF{#1}{\.\sbullet[0.4]\.}{\sbullet[0.4]}}}
+  {\mathcolor{darkgray}{\IfBooleanTF{#1}{\.\sbullet[0.4]\.}{\sbullet[0.4]}}}
 
 %% (abstract) index placeholders
 \NewDocumentCommand{\aind}{}{\bullet}
@@ -111,24 +111,24 @@
 %% Math alphabets shortcuts
 % mathbb
 \clist_map_inline:nn { C, F, N, Q, R, Z }
-    { \cs_new:cpn {#1} {\mathbb{#1}} }
+  { \cs_new:cpn {#1} {\mathbb{#1}} }
 % mathcal
 \clist_map_inline:nn { C, D, I, J }
-    { \cs_new:cpn {#1#1} {\mathcal{#1}} }
+  { \cs_new:cpn {#1#1} {\mathcal{#1}} }
 % mathscr
 \clist_map_inline:nn { B, F, G }
-    { \cs_new:cpn {#1#1} {\mathscr{#1}} }
+  { \cs_new:cpn {#1#1} {\mathscr{#1}} }
 % mathfrak
 \clist_map_inline:nn { b, c, m, P, Q, p, q }
-    { \cs_new:cpn {#1#1} {\mathfrak{#1}} }
+  { \cs_new:cpn {#1#1} {\mathfrak{#1}} }
 \newcommand*{\aaa}{\mathfrak{a}} % `\aa` is reserved in LaTeX
 
 %% Lie groups and algebras shortcuts
 \let\sl\relax % avoid conflict with `sl` command (which is deprecated)
 \clist_map_inline:nn { GL, SL, SO, U, SU, PGL, PSL }
-    { \cs_new:cpn {#1} {\mathsf{#1}} }
+  { \cs_new:cpn {#1} {\mathsf{#1}} }
 \clist_map_inline:nn { gl, sl, so, su }
-    { \cs_new:cpn {#1} {\mathfrak{#1}} }
+  { \cs_new:cpn {#1} {\mathfrak{#1}} }
 \newcommand*{\OO}{\mathsf{O}}   % `\O` is reserved in LaTeX
 \newcommand*{\oo}{\mathfrak{o}} % `\o` is reserved in LaTeX
 
@@ -136,24 +136,24 @@
 \DeclareMathOperator*{\colim}{colim} % colimit
 \DeclareMathOperator{\Char}{char}    % `\char` is reserved in LaTeX
 \clist_map_inline:nn {
-    % linear algebra
-    tr, adj, Span,
-    % group theory
-    Orb, Stab,
-    % number theory
-    lcm, Gal, ab, sep, al, inv, disc, Res, Cor,
-    % commutative algebra
-    Tor, Ext, Ann, Ass, Frac, rank,
-    % algebraic geometry
-    Spec, Supp, Div,
-    % lie algebra
-    Lie, AD, Ad, ad,
-    % category
-    Ob, Mor, Hom, End, Aut, Fun, id, im, coim, coker, op,
-    % infinite category
-    Map, LLP, RLP, Ho, sk, cosk,
-    % others
-    sign, vol,
+  % linear algebra
+  tr, adj, Span,
+  % group theory
+  Orb, Stab, Br,
+  % number theory
+  lcm, Gal, ab, sep, al, inv, disc, Res, Cor,
+  % commutative algebra
+  Tor, Ext, Ann, Ass, Frac, rank,
+  % algebraic geometry
+  Spec, Supp, Div,
+  % lie algebra
+  Lie, AD, Ad, ad,
+  % category
+  Ob, Mor, Hom, End, Aut, Fun, id, im, coim, coker, op,
+  % infinite category
+  Map, LLP, RLP, Ho, sk, cosk,
+  % others
+  sign, vol,
 } { \expandafter\DeclareMathOperator\csname#1\endcsname{#1} }
 
 \ExplSyntaxOff
