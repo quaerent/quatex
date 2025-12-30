@@ -11,7 +11,7 @@
     {
       "name": "latexmk",
       "command": "latexmk",
-      "args": []
+      "args": ["-pdf", "-interaction=nonstopmode", "-synctex=1"]
     }
   ],
   "latex-workshop.latex.clean.command": "latexmk",

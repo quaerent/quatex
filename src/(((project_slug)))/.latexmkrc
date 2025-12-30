@@ -7,7 +7,7 @@ $pdf_mode = 1; # use pdfTeX
 
 ### Additional flags for the TeX engine
 ## %O and %S will forward Options and the Source file, respectively, given to latexmk.
-set_tex_cmds("-synctex=1 -file-line-error --interaction=nonstopmode -pdf %O %S");
+set_tex_cmds("--shell-escape --file-line-error %O %S");
 
 ## Change default `biber` call to help catch errors faster/clearer. See
 ## https://www.semipol.de/posts/2018/06/latex-best-practices-lessons-learned-from-writing-a-phd-thesis/
