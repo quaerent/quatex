@@ -1,4 +1,4 @@
-## Core latex/pdflatex auxiliary files:
+# LaTeX auxiliary files
 *.aux
 *.lof
 *.log
@@ -12,12 +12,12 @@
 *.cb2
 .*.lb
 
-## Intermediate documents:
+# LaTeX intermediate files
 *.dvi
 *.xdv
 *-converted-to.*
 
-## Bibliography auxiliary files:
+# Bibliography auxiliary files
 *.bbl
 *.bcf
 *.blg
@@ -25,7 +25,7 @@
 *-blx.bib
 *.run.xml
 
-## Build tool auxiliary files:
+# Build tool auxiliary files
 *.fdb_latexmk
 *.synctex
 *.synctex(busy)
@@ -33,53 +33,16 @@
 *.synctex.gz(busy)
 *.pdfsync
 
-## Build tool directories for auxiliary files
-# latexmk
-.latexmk/
+# Build directories
+*.pdf
+*.ps
 
-## Auxiliary and intermediate files from other packages:
-# algorithms
-*.alg
-*.loa
+# Index files
+*.idx
+*.ilg
+*.ind
 
-# achemso
-acs-*.bib
-
-# amsthm
-*.thm
-
-# beamer
-*.nav
-*.pre
-*.snm
-*.vrb
-
-# changes
-*.soc
-
-# comment
-*.cut
-
-# cprotect
-*.cpt
-
-# elsarticle
-*.spl
-
-# endnotes
-*.ent
-
-# fixme
-*.lox
-
-# feynmf/feynmp
-*.mf
-*.mp
-*.t[1-9]
-*.t[1-9][0-9]
-*.tfm
-
-# glossaries
+# Glossary files
 *.acn
 *.acr
 *.glg
@@ -89,118 +52,32 @@ acs-*.bib
 *.lzo
 *.lzs
 
-# gnuplottex
-*-gnuplottex-*
-
-# hyperref
+# Hyperref
 *.brf
 
-# knitr
+# Knitr
 *-concordance.tex
 
-# listings
+# Listings
 *.lol
 
-# luatex
-*.lua
-
-# makeidx
-*.idx
-*.ilg
-*.ind
-
-# minitoc
-*.maf
-*.mlf
-*.mlt
-*.mtc[0-9]*
-*.slf[0-9]*
-*.slt[0-9]*
-*.stc[0-9]*
-
-# minted
-_minted*
-*.pyg
-
-# morewrites
-*.mw
-
-# nomencl
+# Nomenclature
 *.nlg
 *.nlo
 *.nls
 
-# pax
-*.pax
+# Temporary files
+*~
+*.swp
+*.swo
+*.bak
+*.backup
 
-# pdfpcnotes
-*.pdfpc
-
-# sagetex
-*.sagetex.sage
-*.sagetex.py
-*.sagetex.scmd
-
-# scrwfile
-*.wrt
-
-# sympy
-*.sout
-*.sympy
-sympy-plots-for-*.tex/
-
-# pdfcomment
-*.upa
-*.upb
-
-# pythontex
-*.pytxcode
-pythontex-files-*/
-
-# tcolorbox
-*.listing
-
-# thmtools
-*.loe
-
-# TikZ & PGF
-*.dpth
-*.md5
-*.auxlock
-
-# todonotes
-*.tdo
-
-# vhistory
-*.hst
-*.ver
-
-# easy-todo
-*.lod
-
-# xcolor
-*.xcp
-
-# xmpincl
-*.xmpi
-
-# xindy
-*.xdy
-
-# xypic precompiled matrices and outlines
-*.xyc
-*.xyd
-
-# endfloat
-*.ttt
-*.fff
-
-# Latexian
-TSWLatexianTemp*
-
-# standalone packages
-*.sta
-
-# Directories
-*.egg-info/
-__pycache__/
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

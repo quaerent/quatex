@@ -4,4 +4,39 @@
 
 \begin{document}
 
+((* if document_class == "article" *))
+\maketitle
+\QuaTOC
+
+%% Front matter
+% \include{frontmatter/...}
+
+%% Main matter
+% \include{mainmatter/...}
+
+%% Back matter
+\references
+((* else *))
+\maketitle
+
+%% Front matter
+\frontmatter
+\QuaTOC
+
+% \include{frontmatter/...}
+
+%% Main matter
+\mainmatter
+
+% \include{mainmatter/...}
+
+%% Back matter
+\backmatter
+
+% \appendix
+% \include{appendix/...}
+
+\references
+((* endif *))
+
 \end{document}

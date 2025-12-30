@@ -1,0 +1,17 @@
+{
+  "latex-workshop.latex.rootFile.indicator": "\\documentclass[]{}",
+  "latex-workshop.latex.recipe.default": "latexmk",
+  "latex-workshop.latex.recipes": [
+    {
+      "name": "latexmk",
+      "tools": ["latexmk"]
+    }
+  ],
+  "latex-workshop.latex.tools": [
+    {
+      "name": "latexmk",
+      "command": "latexmk",
+      "args": []
+    }
+  ]
+}
