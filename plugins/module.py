@@ -33,6 +33,10 @@ class ReferencePlugin(_ModulePlugin):
     module_name = 'reference'
 
 
+class CitationPlugin(_ModulePlugin):
+    module_name = 'citation'
+
+
 class EnvironmentPlugin(_ModulePlugin):
     module_name = 'environment'
     meta_fields = ['define_custom_environments']

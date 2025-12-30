@@ -1,0 +1,30 @@
+%% Disable default outer delimiters
+\DeclareOuterCiteDelims{cite}{}{}
+
+%% Enhance the citation format
+\renewbibmacro*{cite}{%
+  \printtext[bibhyperref]{%
+    \citebox{%
+      \iffieldundef{postnote}{}{%
+        {%
+          \normalfont%
+          \hspace{0.18em}%
+          \printfield{postnote}%
+          \hspace{0.15em}%
+        }%
+      }%
+      \lbrack%
+      \printfield{labelprefix}%
+      \printfield{labelnumber}%
+      \ifbool{bbx:subentry}{\printfield{entrysetcount}}{}%
+      \rbrack%
+    }%
+  }%
+}
+
+%% Do not put commas between multiple citations 
+%%   when using `\cite{something,something}`
+\renewcommand*{\multicitedelim}{\space}
+
+%% Disable default postnote
+\renewbibmacro*{postnote}{}

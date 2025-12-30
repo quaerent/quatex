@@ -40,13 +40,13 @@
 \newif\ifInSansMode % keep track of whether we are in sans mode
 \newif\ifInBoldMode % keep track of whether we are in bold mode
 \AddToHook{cmd/sffamily/after}
-    {\InSansModetrue \ifInBoldMode\mathversion{boldsans}\else\mathversion{sans}\fi}
+  {\InSansModetrue \ifInBoldMode\mathversion{boldsans}\else\mathversion{sans}\fi}
 \AddToHook{cmd/rmfamily/after}
-    {\InSansModefalse\ifInBoldMode\mathversion{bold}\else\mathversion{normal}\fi}
+  {\InSansModefalse\ifInBoldMode\mathversion{bold}\else\mathversion{normal}\fi}
 \AddToHook{cmd/bfseries/after}
-    {\InBoldModetrue \ifInSansMode\mathversion{boldsans}\else\mathversion{bold}\fi}
+  {\InBoldModetrue \ifInSansMode\mathversion{boldsans}\else\mathversion{bold}\fi}
 \AddToHook{cmd/mdseries/after}
-    {\InBoldModefalse\ifInSansMode\mathversion{sans}\else\mathversion{normal}\fi}
+  {\InBoldModefalse\ifInSansMode\mathversion{sans}\else\mathversion{normal}\fi}
 
 %%`\mathbf{...}` is weird, use `\bm` with `\mathrm` instead
 \NewDocumentCommand{\bmrm}{m}{\bm{\mathrm{#1}}}
@@ -69,9 +69,9 @@
 %% https://tex.stackexchange.com/a/663843
 \let\old@font@info\@font@info
 \def\@font@info#1{%
-    \expandafter\ifx\csname\detokenize{#1}\endcsname\relax
-        \old@font@info{#1}%
-    \fi
-    \expandafter\xdef\csname\detokenize{#1}\endcsname{}%
+  \expandafter\ifx\csname\detokenize{#1}\endcsname\relax
+    \old@font@info{#1}%
+  \fi
+  \expandafter\xdef\csname\detokenize{#1}\endcsname{}%
 }
 ((* endif *))

@@ -53,6 +53,11 @@ type = "bool"
 prompt = "Define custom environments?"
 default = true
 
+[meta.enable_citation]
+type = "bool"
+prompt = "Enable citation module?"
+default = true
+
 [meta.enable_math]
 type = "bool"
 prompt = "Enable math module?"
