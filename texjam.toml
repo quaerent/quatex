@@ -12,7 +12,7 @@ keywords = { type = "str", default = "" }
 [meta.project_slug]
 type = "str"
 prompt = "Directory name for the project"
-default = "((( title | lower | replace(' ', '_') )))"
+default = "((( title | lower | replace('\"', '') | replace('\\'', '') | replace('`', '') | replace(' ', '_') )))"
 
 [meta.filename]
 type = "str"
