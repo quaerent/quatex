@@ -1,4 +1,5 @@
 \usepackage{mathtools}
+\usepackage{eqnlines}
 \usepackage{scalerel}
 \usepackage[extdef]{delimset}
 
@@ -54,17 +55,17 @@
 
 %% Sizeable bullet
 \NewDocumentCommand{\sbullet}{O{0.5}}{%
-    \mathbin{%
-        \ThisStyle{%
-            \vcenter{%
-                \hbox{%
-                    \scalebox{#1}{%
-                        \(\SavedStyle\bullet\)%
-                    }%
-                }%
-            }%
+  \mathbin{%
+    \ThisStyle{%
+      \vcenter{%
+        \hbox{%
+          \scalebox{#1}{%
+            \(\SavedStyle\bullet\)%
+          }%
         }%
+      }%
     }%
+  }%
 }
 \NewDocumentCommand{\fdot}{}
   {\mathcolor{black!80}{\sbullet[0.65]}}
@@ -81,29 +82,29 @@
 %% Argument placeholder
 \newsavebox{\argumentbox}
 \sbox{\argumentbox}{%
-    \begin{tikzpicture}[baseline=-0.6ex]
-        \node(char)[
-            draw,
-            shape=rectangle,
-            dash=on 1.2pt off 1.05pt phase 0.5pt,
-            dash expand off,
-            inner ysep=2pt,
-            inner xsep=2pt,
-            minimum size=0.6em,
-            rounded corners=2pt
-        ] {};
-    \end{tikzpicture}%
+  \begin{tikzpicture}[baseline=-0.6ex]
+    \node(char)[
+      draw,
+      shape=rectangle,
+      dash=on 1.2pt off 1.05pt phase 0.5pt,
+      dash expand off,
+      inner ysep=2pt,
+      inner xsep=2pt,
+      minimum size=0.6em,
+      rounded corners=2pt
+    ] {};
+  \end{tikzpicture}%
 }
 \NewDocumentCommand{\argument}{o}{% with optional scaling factor
-    \IfValueTF{#1}{%
-        \scalebox{#1}{\resizebox{!}{0.58em}{\usebox{\argumentbox}}}
-    }{%
-        \mathchoice
-            {\argument[1.0]}% display
-            {\argument[1.0]}% text
-            {\argument[0.7]}% script
-            {\argument[0.6]}% scriptscript
-    }%
+  \IfValueTF{#1}{%
+    \scalebox{#1}{\resizebox{!}{0.58em}{\usebox{\argumentbox}}}
+  }{%
+    \mathchoice
+      {\argument[1.0]}% display
+      {\argument[1.0]}% text
+      {\argument[0.7]}% script
+      {\argument[0.6]}% scriptscript
+  }%
 }
 
 \ExplSyntaxOn
