@@ -13,8 +13,5 @@
       "command": "latexmk",
       "args": ["-pdf", "-interaction=nonstopmode", "-synctex=1"]
     }
-  ],
-  "latex-workshop.latex.clean.command": "latexmk",
-  "latex-workshop.latex.clean.args": ["-c"],
-  "latex-workshop.latex.autoClean.run": "onFailed"
+  ]
 }
