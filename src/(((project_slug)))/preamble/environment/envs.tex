@@ -1,3 +1,32 @@
+%% Automatic `zcref` type name declaration for environments
+%%   #1 - type name
+%%   #2 - plural form (optional)
+\NewDocumentCommand{\DeclareCleverTypeName}{m o}{
+  \zcRefTypeSetup{#1}{
+    name-sg = #1,
+    Name-sg = \MakeTitlecase{#1},
+    name-pl = \IfValueTF{#2}{#2}{#1s},
+    Name-pl = \MakeTitlecase{\IfValueTF{#2}{#2}{#1}s},
+  }
+  \zcRefTypeSetup{#1*}{
+    name-sg = #1,
+    Name-sg = \MakeTitlecase{#1},
+    name-pl = \IfValueTF{#2}{#2}{#1s},
+    Name-pl = \MakeTitlecase{\IfValueTF{#2}{#2}{#1}s},
+  }
+}
+  
+%% Automatically generate starred unnumbered versions of environments
+\NewDocumentCommand{\DeclareTheoremEnv}{m o}{
+  \IfValueTF{#2}{
+    \declarekeytheorem{#1}[#2, name=\MakeTitlecase{#1}]
+    \declarekeytheorem{#1*}[#2, name=\MakeTitlecase{#1}, numbered=false]
+  }{
+    \declarekeytheorem{#1}[name=\MakeTitlecase{#1}]
+    \declarekeytheorem{#1*}[name=\MakeTitlecase{#1}, numbered=false]
+  }
+}
+
 %% Theorem-like environment
 % Cancel the reserved space for qed symbol
 \newcommand*{\theoremqed}{\hspace{-1.195em}\strut}
@@ -6,7 +35,7 @@
 %   #2 - environment name
 %   #3 - plural form for cleveref (optional)
 \NewDocumentCommand{\NewTheoremLike}{O{qed=\theoremqed} m o}{
-  \declarekeytheorem{#2}[
+  \DeclareTheoremEnv{#2}[
     sibling=table,
     style=thmcommon,
     #1,
@@ -26,7 +55,7 @@
 %   #2 - environment name
 %   #3 - plural form for cleveref (optional)
 \NewDocumentCommand{\NewRemarkLike}{O{qed=\remarkqed} m o}{
-  \declarekeytheorem{#2}[
+  \DeclareTheoremEnv{#2}[
     sibling=table,
     style=thmcommon,
     #1,
@@ -54,11 +83,11 @@
 %   #1 - environment name
 %   #2 - background color
 \NewDocumentCommand{\NewTodoLike}{m m}{
-    \NewTColorBox{#1}{o}{
-        todolike,
-        colback=#2,
-        title={#1\IfValueT{##1}{ \textmd{(##1)}}.}
-    }
+  \NewTColorBox{#1}{o}{
+    todolike,
+    colback=#2,
+    title={#1\IfValueT{##1}{ \textmd{(##1)}}.}
+  }
 }
 % Quick inline todo command
 %   #1 - optional short label
@@ -70,7 +99,6 @@
   }%
 }
 
-((* if define_custom_environments *))
 %% Custom environments
 \NewTheoremLikes{definition, theorem, lemma, proposition}
 \NewTheoremLike{corollary}[corollaries]
@@ -79,4 +107,3 @@
 \NewTodoLike{Question}{orange!10}
 \NewTodoLike{Suggestion}{cyan!10}
 \NewTodoLike{Note}{cyan!50!green!10}
-((* endif *))

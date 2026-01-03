@@ -39,15 +39,3 @@
   \renewcommand*{\qedsymbol}{\raisebox{-\qedshift}{\qedsymbolold}}%
   \qedhereold%
 }
-
-%% Automatic `zcref` type name declaration for theorem-like environments
-%%   #1 - type name
-%%   #2 - plural form (optional)
-\NewDocumentCommand{\DeclareCleverTypeName}{m o}{
-  \zcRefTypeSetup{#1}{
-    name-sg = #1,
-    Name-sg = \MakeTitlecase{#1},
-    name-pl = \IfValueTF{#2}{#2}{#1s},
-    Name-pl = \MakeTitlecase{\IfValueTF{#2}{#2}{#1}s},
-  }
-}
