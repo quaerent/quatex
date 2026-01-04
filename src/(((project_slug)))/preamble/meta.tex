@@ -2,3 +2,14 @@
 \newcommand*{\docAuthor}{(((author)))}
 \newcommand*{\docSubject}{(((subject)))}
 \newcommand*{\docKeywords}{(((keywords)))}
+
+%% Whether this is a draft version
+%% In draft mode, a watermark will be shown in the footer
+\newif\ifDRAFT
+\DRAFTtrue
+
+\AtBeginDocument{
+  \ifDRAFT
+    \ClassWarning{document}{This is a DRAFT version}
+  \fi
+}
