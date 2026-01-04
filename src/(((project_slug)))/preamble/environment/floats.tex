@@ -65,15 +65,15 @@
 % \DeclareCaptionLabelSeparator{slash}{~/~} % `␣/␣` between label and caption
 \DeclareCaptionLabelSeparator{slash}{\hspace{0.25em}/\hspace{0.25em}} % `␣/␣` between label and caption
 \captionsetup{
-    format        = plain,  % no hanging indent
-    indention     = 0.6em,  % but still slightly indent the caption
-    % format        = hang,   % alternative: hanging indent
-    font          = small,
-    labelfont     = {sf,bf},
-    labelsep      = slash,
-    labelformat   = simple,
-    tableposition = bottom,
-    parskip       = .3\baselineskip plus 1pt,
+  format        = plain,  % no hanging indent
+  indention     = 0.6em,  % but still slightly indent the caption
+  % format        = hang,   % alternative: hanging indent
+  font          = small,
+  labelfont     = {sf,bf},
+  labelsep      = slash,
+  labelformat   = simple,
+  tableposition = bottom,
+  parskip       = .3\baselineskip plus 1pt,
 }
 
 \makeatletter
@@ -85,12 +85,9 @@
 \makeatother
 
 \DeclareCaptionFont{ftfont}{%
-    \scriptsize%
-    \color{Gray60}%
-    \sffamily\raggedleft%
-}
-\captionsetup[floatfoot]{
-    footfont=ftfont, % https://tex.stackexchange.com/q/9547/120853
+  \scriptsize%
+  \color{Gray60}%
+  \sffamily\raggedleft%
 }
 
 %%% You can change the justification of all side-captions here
