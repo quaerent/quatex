@@ -11,6 +11,27 @@
   trees,
   fit,
   matrix,
+  hobby,
+  positioning,
+  calc,
+  intersections,
+  through,
+  backgrounds,
+}
+
+% This package must be loaded after `\usetikzlibrary{calc,...}`.
+\usepackage{tkz-euclide}
+
+%% Middle arrow style
+\tikzset{
+  midarrow/.style={
+    postaction={decorate},
+    decoration={
+      markings,
+      mark=at position #1 with {\arrow{>}}
+    }
+  },
+  midarrow/.default=0.5,
 }
 
 %% Directory Tree Structure
@@ -63,8 +84,9 @@
     \tikzset{quiver/.cd,#1}
     \def\pv##1{\pgfkeysvalueof{/tikz/quiver/##1}}
   },
-  quiver/.cd,pos/.initial=0.35,
-  height/.initial=0,
+  quiver/.cd,
+    pos/.initial=0.35,
+    height/.initial=0,
 }
 
 %% TikZ arrowhead/tail styles.
