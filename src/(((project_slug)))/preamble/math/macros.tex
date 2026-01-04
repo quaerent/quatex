@@ -134,8 +134,10 @@
 \newcommand*{\oo}{\mathfrak{o}} % `\o` is reserved in LaTeX
 
 %% Other common operators
-\DeclareMathOperator*{\colim}{colim} % colimit
-\DeclareMathOperator{\Char}{char}    % `\char` is reserved in LaTeX
+\DeclareMathOperator*{\colim}{colim}     % colimit
+\DeclareMathOperator*{\holim}{holim}     % homotopy limit
+\DeclareMathOperator*{\hocolim}{hocolim} % homotopy colimit
+\DeclareMathOperator{\Char}{char} % `\char` is reserved in LaTeX
 \clist_map_inline:nn {
   % linear algebra
   tr, adj, Span,
