@@ -57,18 +57,27 @@
   \renewcommand*{\headrule}{%
     \usebox{\defaultheaderrule}\linebreak[1]%
   }
-  \fancyhead[LO]{%
-    \hspace{\headerpadding}%
-    \textcolor{HeaderColor}%
-    {\textsf{\nouppercase{\rightmark}}}%
-  }
-  \fancyhead[RE]{%
-    \color{HeaderColor}%
-    \textsf{\nouppercase{\rightmark}}%
-    \hspace{\headerpadding}%
-  }
-  \fancyhead[RO]{\textbf{\thepage}\hspace{\headerpadding}}
-  \fancyhead[LE]{\hspace{\headerpadding}\textbf{\thepage}}
+  \ifdefined\chapter
+    \fancyhead[LO]{%
+      \hspace{\headerpadding}%
+      \textcolor{HeaderColor}%
+      {\textsf{\nouppercase{\rightmark}}}%
+    }
+    \fancyhead[RE]{%
+      \color{HeaderColor}%
+      \textsf{\nouppercase{\rightmark}}%
+      \hspace{\headerpadding}%
+    }
+    \fancyhead[RO]{\textbf{\thepage}\hspace{\headerpadding}}
+    \fancyhead[LE]{\hspace{\headerpadding}\textbf{\thepage}}
+  \else
+    \fancyhead[L]{%
+      \hspace{\headerpadding}%
+      \textcolor{HeaderColor}%
+      {\textsf{\nouppercase{\leftmark}}}%
+    }
+    \fancyhead[R]{\textbf{\thepage}\hspace{\headerpadding}}
+  \fi
   \fancyfoot{}
   \ifDRAFT % show draft watermark in footer
     \fancyfoot[C]{\vskip1ex\relax \ttfamily\textcolor{black!15}{Draft - \today}}
@@ -76,11 +85,18 @@
 }
 
 %% Chapter header style
-\fancypagestyle{plain}[header]{
-  \renewcommand*{\headrule}{%
-    \hfill\usebox{\chapterheaderrule}\linebreak[1]%
+%% Chapter header style
+\ifdefined\chapter
+  \fancypagestyle{plain}[header]{
+    \renewcommand*{\headrule}{%
+      \hfill\usebox{\chapterheaderrule}\linebreak[1]%
+    }
+    \fancyhead[LO,RE]{}
   }
-  \fancyhead[LO,RE]{}
-}
+\else
+  \fancypagestyle{plain}{
+    \pagestyle{empty}
+  }
+\fi
 
 \pagestyle{header}
