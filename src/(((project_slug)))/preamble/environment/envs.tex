@@ -99,6 +99,7 @@
   }%
 }
 
+((* if "custom_env" in environment_options *))
 %% Custom environments
 \NewTheoremLikes{definition, theorem, lemma, proposition}
 \NewTheoremLike{corollary}[corollaries]
@@ -107,3 +108,4 @@
 \NewTodoLike{Question}{orange!10}
 \NewTodoLike{Suggestion}{cyan!10}
 \NewTodoLike{Note}{cyan!50!green!10}
+((* endif *))

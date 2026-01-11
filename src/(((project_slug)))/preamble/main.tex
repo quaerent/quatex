@@ -1,17 +1,18 @@
 \input{preamble/meta}
-((* if enable_layout *))
+((* if "layout" in modules *))
 \input{preamble/layout/main}
 ((* endif *))
-((* if enable_reference *))
+((* if "font" in modules *))
+((* if "reference" in modules *))
 \input{preamble/reference/main}
 ((* endif *))
-((* if enable_citation *))
+((* if "citation" in modules *))
 \input{preamble/citation/main}
 ((* endif *))
-((* if enable_math *))
+((* if "math" in modules *))
 \input{preamble/math/main}
 ((* endif *))
-((* if enable_environment *))
+((* if "environment" in modules *))
 \input{preamble/environment/main}
 ((* endif *))
 \input{preamble/user/main}

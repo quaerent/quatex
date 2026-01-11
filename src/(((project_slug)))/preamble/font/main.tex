@@ -2,7 +2,6 @@
 \usepackage{amssymb}
 \usepackage{bm}
 
-((* if use_math_fonts *))
 %% Set the default bold math sans font to be `sbc` (sans bold condensed)
 %% https://tex.stackexchange.com/questions/27843/level-of-boldness-changeable
 \newcommand*{\mathsfbfdefault}{sbc}
@@ -64,7 +63,6 @@
 \DeclareMathDelimiter{\dblbracketleft}{\mathopen}{stmry}{"4A}{stmry}{"71}
 \DeclareMathDelimiter{\dblbracketright}{\mathclose}{stmry}{"4B}{stmry}{"79}
 
-
 %% HACK: Reduce verbosity of "No alphabet change ..." messages
 %% https://tex.stackexchange.com/a/663843
 \makeatletter
@@ -76,4 +74,3 @@
   \expandafter\xdef\csname\detokenize{#1}\endcsname{}%
 }
 \makeatother
-((* endif *))

@@ -1,7 +1,5 @@
 \newcommand*{\docTitle}{(((title)))}
 \newcommand*{\docAuthor}{(((author)))}
-\newcommand*{\docSubject}{(((subject)))}
-\newcommand*{\docKeywords}{(((keywords)))}
 
 %% Whether this is a draft version
 %% In draft mode, a watermark will be shown in the footer
@@ -10,6 +8,6 @@
 
 \AtBeginDocument{
   \ifDRAFT
-    \ClassWarning{document}{This is a DRAFT version}
+    \PackageWarning{QuaTeX}{DRAFT mode is enabled. A watermark will be shown in the footer.}
   \fi
 }

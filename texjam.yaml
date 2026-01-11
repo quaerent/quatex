@@ -1,0 +1,70 @@
+name: QuaTeX
+authors:
+  - Quaerent <topfyf@qq.com>
+description: A LaTeX template made by Quaerent powered by TeXJam.
+
+meta:
+  title:
+    type: str
+    required: true
+  author:
+    type: str
+    required: true
+  project_slug:
+    type: str
+    prompt: Directory name for the project
+    default: ((( title | lower | replace('\"', '') | replace('\'', '') | replace('`', '') | replace(' ', '_') )))
+  filename:
+    type: str
+    prompt: Main LaTeX filename (without .tex extension)
+    default: ((( project_slug )))
+  document_class:
+    type: choice
+    choices:
+      - article
+      - report
+      - book
+  modules:
+    type: select
+    items:
+      - title: layout
+        default: true
+      - title: font
+        default: true
+      - title: reference
+        default: true
+      - title: environment
+        default: true
+      - title: math
+        default: true
+  layout_options:
+    type: select
+    prompt: Layout Options
+    items:
+      - title: fancy_header_footer
+        prompt: Use fancy headers and footers?
+        default: true
+  reference_options:
+    type: select
+    prompt: Reference Options
+    items:
+      - title: colorful_box
+        prompt: Use colorful boxes for references?
+        default: true
+  environment_options:
+    type: select
+    prompt: Environment Options
+    items:
+      - title: custom_env
+        prompt: Define custom environments?
+        default: true
+  math_options:
+    type: select
+    prompt: Math Options
+    items:
+      - title: display_style
+        prompt: Display equations in display style?
+        default: true
+      - title: custom_macros
+        prompt: Define custom math commands?
+        default: true

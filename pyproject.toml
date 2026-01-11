@@ -7,10 +7,13 @@ authors = [
 ]
 license = {text = "MIT"}
 readme = "README.md"
-requires-python = ">=3.11,<4.0"
+requires-python = ">=3.12,<4.0"
 dependencies = [
-    "texjam (>=0.4.2,<0.5.0)"
+    "texjam (>=0.5.0,<0.6.0)"
 ]
+
+[tool.poetry]
+package-mode = false
 
 
 [build-system]

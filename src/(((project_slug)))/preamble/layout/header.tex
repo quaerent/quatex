@@ -30,7 +30,7 @@
 \sbox{\defaultheaderrule}{%
   \tikz[baseline=-1em]{
     \fill[header rule] (0,0) rectangle (\textwidth,\headrulewidth);
-    ((* if fancy_header_footer *))
+    ((* if "fancy_header_footer" in layout_options *))
     \draw[header decor]
     (\textwidth,\headrulewidth/2)
     -- ++( 7pt,0);
@@ -45,7 +45,7 @@
   \tikz[baseline=-1em]{
     \fill[header rule, path fading=west]
       (0,0) rectangle (0.45\textwidth,\headrulewidth);
-    ((* if fancy_header_footer *))
+    ((* if "fancy_header_footer" in layout_options *))
     \draw[header decor]
       (0.45\textwidth,\headrulewidth/2) -- ++(7pt,0);
     ((* endif *))
