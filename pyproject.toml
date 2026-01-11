@@ -1,7 +1,7 @@
 [project]
 name = "quatex"
 version = "0.1.0"
-description = "LaTeX template by Quaerent"
+description = "A LaTeX template made by Quaerent powered by TeXJam."
 authors = [
     {name = "Quaerent",email = "topfyf@qq.com"}
 ]
