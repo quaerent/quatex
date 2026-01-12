@@ -64,9 +64,6 @@ meta:
     type: select
     prompt: Math Options
     items:
-      - title: display_style
-        prompt: Display equations in display style?
-        default: true
       - title: custom_macros
         prompt: Define custom math commands?
         default: true
