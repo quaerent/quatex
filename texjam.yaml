@@ -33,6 +33,8 @@ meta:
         default: true
       - title: reference
         default: true
+      - title: citation
+        default: true
       - title: environment
         default: true
       - title: math
