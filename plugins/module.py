@@ -29,7 +29,9 @@ class ModuleFilterPlugin(TexJamPlugin):
         parts = path.raw.relative_to(self.texjam.template_source_dir).parts
         if len(parts) < 3 or parts[1] != 'preamble':
             return None
-        return parts[2]
+        if parts[2] in self.modules:
+            return parts[2]
+        return None
 
     def pre_prompt(self, name: str, field: MetaField) -> bool | None:
         for module_name in self.modules:
