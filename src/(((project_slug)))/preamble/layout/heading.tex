@@ -41,13 +41,15 @@
 %%   #1 - star (*) if unnumbered chapter
 %%   #2 - chapter numbering
 %%   #3 - chapter title
-\NewDocumentCommand{\chaphead}{s O{} m}{
+\NewDocumentCommand{\chaphead}{s o m}{
   \vspace*{-25pt}% header top margin
   {%
     \setlength{\parindent}{0pt}\raggedright%
     \Huge\sffamily\bfseries%
     ((* if "fancy_header_footer" in layout_options *))
-    \chapterheadingletter{#2}%
+    \IfValueT{#2}{%
+      \chapterheadingletter{#2}%
+    }%
     ((* else *))
     \IfBooleanF{#1}{#2\hspace{0.7em}}%
     ((* endif *))
@@ -60,8 +62,13 @@
 \makeatletter
 % for numbered Chapters simply use their number
 \def\@makechapterhead#1{\chaphead[\thechapter]{#1}}
-% extract first letter of the unnumbered Chapter title 
+((* if language == "Chinese" *))
+% do not use the first letter for unnumbered Chapters in Chinese
+\def\@makeschapterhead#1{\chaphead*{#1}}
+((* else *))
+% extract first letter of the unnumbered Chapter title
 \def\@makeschapterhead#1{\chaphead*[\ExtractLeadingChars{#1}]{#1}}
+((* endif *))
 \makeatother
 
 %% Extract leading characters from a string
