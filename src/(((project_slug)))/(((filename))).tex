@@ -1,4 +1,12 @@
+((* if language == "Chinese" *))
+((* set real_class =
+    "ctexart" if document_class == "article"
+    else "ctexrep" if document_class == "report"
+    else "ctexbook" *))
+\documentclass[a4paper,UTF8]{(((real_class)))}
+((* else *))
 \documentclass[a4paper]{(((document_class)))}
+((* endif *))
 
 \input{preamble/main}
 

@@ -1,9 +1,11 @@
 ## This file contains instructions and configurations for the `latexmk` program
 
 ## Choose TeX engine for PDF generation
-$pdf_mode = 1; # use pdfTeX
-# $pdf_mode = 4; # use LuaTeX
-# $pdf_mode = 5; # use XeTeX
+((* if language == "Chinese" *))
+$pdf_mode = 5; # xelatex
+((* else *))
+$pdf_mode = 1; # pdflatex
+((* endif *))
 
 ### Additional flags for the TeX engine
 ## %O and %S will forward Options and the Source file, respectively, given to latexmk.

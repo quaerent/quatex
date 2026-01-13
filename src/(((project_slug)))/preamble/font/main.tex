@@ -2,6 +2,11 @@
 \usepackage{amssymb}
 \usepackage{bm}
 
+%% Disable the warning of size substitution
+\makeatletter
+\let\@font@warning\@gobble
+\makeatother
+
 %% Set the default bold math sans font to be `sbc` (sans bold condensed)
 %% https://tex.stackexchange.com/questions/27843/level-of-boldness-changeable
 \newcommand*{\mathsfbfdefault}{sbc}

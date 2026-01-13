@@ -18,6 +18,12 @@ meta:
     type: str
     prompt: Main LaTeX filename (without .tex extension)
     default: ((( project_slug )))
+  language:
+    type: choice
+    choices:
+      - English
+      - Chinese
+    default: English
   document_class:
     type: choice
     choices:
