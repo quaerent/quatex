@@ -22,7 +22,11 @@
   {0em}{}
 \titleformat{\part}[display]
   {\thispagestyle{empty}\sffamily}
+((* if language == "Chinese" *))
+  {\LARGE \CTEXthepart}
+((* else *))
   {\LARGE \partname~\Romanbar{\thepart}}
+((* endif *))
   {0.2em}{\fontsize{30pt}{36pt}\selectfont\bfseries}
 
 %% Format the chapter heading letter

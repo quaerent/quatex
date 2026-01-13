@@ -1,6 +1,14 @@
 \usepackage{titletoc}
 \usepackage{tocbibind}
 
+((* if language == "Chinese" *))
+%% CTEX settings for chapter numbering in Chinese documents
+\ctexset{
+  chapter/number = \arabic{chapter},
+  chapter/name = {,},
+}
+((* endif *))
+
 %% Numbering depth and TOC depth
 \ifdefined\chapter
   % For documents with chapters:
