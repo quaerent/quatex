@@ -3,10 +3,12 @@
 
 ((* if language == "Chinese" *))
 %% CTEX settings for chapter numbering in Chinese documents
-\ctexset{
-  chapter/number = \arabic{chapter},
-  chapter/name = {,},
-}
+\ifdefined\chapter
+  \ctexset{
+    chapter/number = \arabic{chapter},
+    chapter/name = {,},
+  }
+\fi
 ((* endif *))
 
 %% Numbering depth and TOC depth
@@ -43,7 +45,11 @@
 % Part entries
 \titlecontents{part}
   [2em]{\addvspace{3ex}\filcenter}
+((* if language == "Chinese" *))
+  {\small \thecontentslabel\\*[-0.2ex]\Large\bfseries}
+((* else *))
   {\small \partname~\thecontentslabel\\*[-0.2ex]\Large\bfseries}
+((* endif*))
   {\Large\bfseries}{}
   [\addvspace{1.0ex}]
 

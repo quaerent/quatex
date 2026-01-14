@@ -39,15 +39,15 @@
 ((* if language == "Chinese" *))
 %% Automatically generate starred unnumbered versions of environments
 %%   #1 - environment name
-%%   #2 - options (optional)
 %%   #3 - Chinese name
-\NewDocumentCommand{\DeclareTheoremEnv}{m o m}{
+%%   #2 - options (optional)
+\NewDocumentCommand{\DeclareTheoremEnv}{m m o}{
   \IfValueTF{#2}{
-    \declarekeytheorem{#1}[#2, name=#3]
-    \declarekeytheorem{#1*}[#2, name=#3, numbered=false]
+    \declarekeytheorem{#1}[#3, name=#2]
+    \declarekeytheorem{#1*}[#3, name=#2, numbered=false]
   }{
-    \declarekeytheorem{#1}[name=#3]
-    \declarekeytheorem{#1*}[name=#3, numbered=false]
+    \declarekeytheorem{#1}[name=#2]
+    \declarekeytheorem{#1*}[name=#2, numbered=false]
   }
 }
 ((* else *))
@@ -75,7 +75,7 @@
 %   #2 - environment name
 %   #3 - Chinese name
 \NewDocumentCommand{\NewTheoremLike}{O{qed=\theoremqed} m m}{
-  \DeclareTheoremEnv{#2}[
+  \DeclareTheoremEnv{#2}{#3}[
     sibling=table,
     style=thmcommon,
     #1,
@@ -111,7 +111,7 @@
 %   #2 - environment name
 %   #3 - Chinese name
 \NewDocumentCommand{\NewRemarkLike}{O{qed=\remarkqed} m m}{
-  \DeclareTheoremEnv{#2}[
+  \DeclareTheoremEnv{#2}{#3}[
     sibling=table,
     style=thmcommon,
     #1,
