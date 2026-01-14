@@ -1,3 +1,22 @@
+((* if language == "Chinese" *))
+%% Automatic `zcref` type name declaration for environments
+%%   #1 - type name
+%%   #2 - Chinese name
+\NewDocumentCommand{\DeclareCleverTypeName}{m m}{
+  \zcRefTypeSetup{#1}{
+    name-sg = #2,
+    Name-sg = #2,
+    name-pl = #2,
+    Name-pl = #2,
+  }
+  \zcRefTypeSetup{#1*}{
+    name-sg = #2,
+    Name-sg = #2,
+    name-pl = #2,
+    Name-pl = #2,
+  }
+}
+((* else *))
 %% Automatic `zcref` type name declaration for environments
 %%   #1 - type name
 %%   #2 - plural form (optional)
@@ -15,21 +34,56 @@
     Name-pl = \MakeTitlecase{\IfValueTF{#2}{#2}{#1}s},
   }
 }
-  
+((* endif *))
+
+((* if language == "Chinese" *))
 %% Automatically generate starred unnumbered versions of environments
-\NewDocumentCommand{\DeclareTheoremEnv}{m o}{
+%%   #1 - environment name
+%%   #2 - options (optional)
+%%   #3 - Chinese name
+\NewDocumentCommand{\DeclareTheoremEnv}{m o m}{
   \IfValueTF{#2}{
-    \declarekeytheorem{#1}[#2, name=\MakeTitlecase{#1}]
-    \declarekeytheorem{#1*}[#2, name=\MakeTitlecase{#1}, numbered=false]
+    \declarekeytheorem{#1}[#2, name=#3]
+    \declarekeytheorem{#1*}[#2, name=#3, numbered=false]
   }{
-    \declarekeytheorem{#1}[name=\MakeTitlecase{#1}]
-    \declarekeytheorem{#1*}[name=\MakeTitlecase{#1}, numbered=false]
+    \declarekeytheorem{#1}[name=#3]
+    \declarekeytheorem{#1*}[name=#3, numbered=false]
   }
 }
+((* else *))
+%% Automatically generate starred unnumbered versions of environments
+%%   #1 - environment name
+%%   #2 - options (optional)
+%%   #3 - English name (optional)
+\NewDocumentCommand{\DeclareTheoremEnv}{m o O{\MakeTitlecase{#1}}}{
+  \IfValueTF{#2}{
+    \declarekeytheorem{#1}[#2, name=#3]
+    \declarekeytheorem{#1*}[#2, name=#3, numbered=false]
+  }{
+    \declarekeytheorem{#1}[name=#3]
+    \declarekeytheorem{#1*}[name=#3, numbered=false]
+  }
+}
+((* endif *))
 
 %% Theorem-like environment
 % Cancel the reserved space for qed symbol
 \newcommand*{\theoremqed}{\hspace{-1.195em}\strut}
+((* if language == "Chinese" *))
+% Factory for theorem-like environments
+%   #1 - key-value options (optional)
+%   #2 - environment name
+%   #3 - Chinese name
+\NewDocumentCommand{\NewTheoremLike}{O{qed=\theoremqed} m m}{
+  \DeclareTheoremEnv{#2}[
+    sibling=table,
+    style=thmcommon,
+    #1,
+    tcolorbox-no-titlebar={parbox=false, breakable},
+  ]
+  \DeclareCleverTypeName{#2}{#3}
+}
+((* else *))
 % Factory for theorem-like environments
 %   #1 - key-value options (optional)
 %   #2 - environment name
@@ -46,10 +100,26 @@
 \NewDocumentCommand{\NewTheoremLikes}{>{\SplitList{,}} m}{
   \ProcessList{#1}{\NewTheoremLike}
 }
+((* endif *))
 
 %% Remark-like environment
 % Put a cornered box instead of qed symbol
 \newcommand*{\remarkqed}{\hspace{-0.9em}\textcolor{black!60}{\(\lrcorner\)}\strut}
+((* if language == "Chinese" *))
+% Factory for remark-like environments
+%   #1 - key-value options (optional)
+%   #2 - environment name
+%   #3 - Chinese name
+\NewDocumentCommand{\NewRemarkLike}{O{qed=\remarkqed} m m}{
+  \DeclareTheoremEnv{#2}[
+    sibling=table,
+    style=thmcommon,
+    #1,
+    tcolorbox-no-titlebar={parbox=false, breakable},
+  ]
+  \DeclareCleverTypeName{#2}{#3}
+}
+((* else *))
 % Factory for remark-like environments
 %   #1 - key-value options (optional)
 %   #2 - environment name
@@ -66,6 +136,7 @@
 \NewDocumentCommand{\NewRemarkLikes}{>{\SplitList{,}} m}{
     \ProcessList{#1}{\NewRemarkLike}
 }
+((* endif *))
 
 %% Todo-like environment
 % Base style for todo-like environments
@@ -101,6 +172,18 @@
 
 ((* if "custom_env" in environment_options *))
 %% Custom environments
+((* if language == "Chinese" *))
+\NewTheoremLike{definition}{定义}
+\NewTheoremLike{theorem}{定理}
+\NewTheoremLike{lemma}{引理}
+\NewTheoremLike{proposition}{命题}
+\NewTheoremLike{corollary}{推论}
+\NewRemarkLike{remark}{注}
+\NewRemarkLike{example}{例}
+\NewRemarkLike{idea}{思路}
+\NewRemarkLike{tip}{提示}
+\NewRemarkLike{slogan}{口号}
+((* else *))
 \NewTheoremLikes{definition, theorem, lemma, proposition}
 \NewTheoremLike{corollary}[corollaries]
 \NewRemarkLikes{remark, example, idea, tip, slogan}
@@ -108,4 +191,5 @@
 \NewTodoLike{Question}{orange!10}
 \NewTodoLike{Suggestion}{cyan!10}
 \NewTodoLike{Note}{cyan!50!green!10}
+((* endif *))
 ((* endif *))

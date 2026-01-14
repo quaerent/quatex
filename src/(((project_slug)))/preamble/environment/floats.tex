@@ -112,3 +112,9 @@
 
 %% Change counter from Arabic number to letter:
 \renewcommand*{\theContinuedFloat}{\alph{ContinuedFloat}}
+
+((* if language == "Chinese" *))
+%% Chinese float names
+\DeclareCleverTypeName{figure}{图}
+\DeclareCleverTypeName{table}{表}
+((* endif *))
