@@ -78,10 +78,12 @@
     }
     \fancyhead[R]{\textbf{\thepage}\hspace{\headerpadding}}
   \fi
-  \fancyfoot{}
-  \ifDRAFT % show draft watermark in footer
-    \fancyfoot[C]{\vskip1ex\relax \ttfamily\textcolor{black!15}{Draft - \today}}
-  \fi
+  \fancyfoot[C]{%
+    \ifDRAFT%
+      \vskip1ex\relax%
+      \ttfamily\textcolor{black!15}{Draft - \today}%
+    \fi%
+  }
 }
 
 %% Chapter header style
