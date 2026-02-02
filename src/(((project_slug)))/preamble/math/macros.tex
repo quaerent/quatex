@@ -15,22 +15,17 @@
   {\mathinner{}\middleold#1\mathinner{}}
 
 ((* if "custom_macros" in math_options *))
-%% Use more direct name for common math operators
-\newcommand*{\union}{\cup}
-\newcommand*{\inter}{\cap}
-\newcommand*{\Union}{\bigcup}
-\newcommand*{\Inter}{\bigcap}
-\newcommand*{\disunion}{\sqcup}
-\newcommand*{\Disunion}{\bigsqcup}
-\newcommand*{\tensprod}{\otimes}
-\newcommand*{\directsum}{\oplus}
-\newcommand*{\Tensprod}{\bigotimes}
-\newcommand*{\Directsum}{\bigoplus}
 % Use starred version for left arrows
 \NewDocumentCommand{\mapinto}{s}
   {\IfBooleanTF{#1}{\hookleftarrow}{\hookrightarrow}}
 \NewDocumentCommand{\maponto}{s}
   {\IfBooleanTF{#1}{\twoheadleftarrow}{\twoheadrightarrow}}
+\NewDocumentCommand{\cofib}{s}
+  {\IfBooleanTF{#1}{\rightarrowtail}{\leftarrowtail}}
+\NewDocumentCommand{\fib}{s}
+  {\IfBooleanTF{#1}{\twoheadrightarrow}{\twoheadleftarrow}}
+
+((* else *))
 
 %% Helper macros
 \NewDocumentCommand{\raisemath}{m}
